@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Grow Together Community — a welcoming community to practice English communication confidently, connect with people, and grow together." />
+  <title>Grow Together Community | Speak. Connect. Grow.</title>
+  <style>
+    :root{
+      --deep-green:#1F5D50;
+      --sage-green:#8FAF9A;
+      --warm-cream:#F7F3E8;
+      --charcoal:#26332F;
+      --soft-gold:#D9B86C;
+      --bg:var(--warm-cream);
+      --surface:#fffdf8;
+      --ink:var(--charcoal);
+      --muted:#66736d;
+      --primary:var(--deep-green);
+      --primary-dark:#17493f;
+      --accent:var(--sage-green);
+      --line:#dfe5dc;
+      --shadow:0 18px 50px rgba(38,51,47,.12);
+      --radius:22px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+    a{text-decoration:none;color:inherit}
+    button{font:inherit}
+    .container{width:min(1160px,92%);margin:auto}
+
+    /* Navigation */
+    .nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      background:rgba(255,253,248,.94);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(31,93,80,.16);
+    }
+    .nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.4px;color:#26332F}
+    .logo{
+      width:58px;height:58px;border-radius:12px;
+      display:grid;place-items:center;background:transparent;
+      overflow:hidden;flex:none;
+    }
+    .logo img{width:100%;height:100%;object-fit:contain;display:block}
+    .brand span{font-size:18px}
+    .brand small{display:block;color:#66736d;font-size:10px;font-weight:600;letter-spacing:1.1px;text-transform:uppercase;margin-top:-3px}
+    .nav-links{display:flex;align-items:center;gap:22px;color:#52615a;font-size:14px;font-weight:650}
+    .nav-links a{position:relative;padding:8px 0;white-space:nowrap}
+    .nav-links a:after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--soft-gold);transition:.25s}
+    .nav-links a:hover{color:var(--primary)}
+    .nav-links a:hover:after,.nav-links a.active:after{width:100%}
+    .join-btn{border:0;background:var(--primary);color:#F7F3E8;padding:11px 17px;border-radius:12px;font-weight:700;cursor:pointer;transition:.2s}
+    .join-btn:hover{transform:translateY(-2px);background:#17493f}
+    .menu{display:none;border:0;background:none;color:#1F5D50;font-size:27px;cursor:pointer}
+
+    /* Hero */
+    .hero{padding:145px 0 75px;background:linear-gradient(180deg,#fffdf8 0%,var(--warm-cream) 100%)}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:60px}
+    .eyebrow{display:inline-block;padding:6px 14px;border-radius:999px;background:#e5eee8;color:var(--deep-green);font-size:11px;font-weight:800;letter-spacing:.3px;margin-bottom:14px}
+    h1{font-size:clamp(38px,5.5vw,62px);line-height:1.05;letter-spacing:-2.5px;max-width:680px}
+    .gradient{background:linear-gradient(90deg,var(--deep-green),var(--sage-green));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero p{font-size:17px;color:var(--muted);max-width:560px;margin:20px 0 28px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap}
+    .primary,.secondary{padding:13px 20px;border-radius:12px;font-weight:800;display:inline-flex;align-items:center;gap:8px;font-size:14.5px;transition:.2s}
+    .primary{background:var(--primary);color:white}
+    .primary:hover{background:var(--primary-dark);transform:translateY(-2px)}
+    .secondary{border:1px solid var(--line);background:white;color:var(--ink)}
+    .secondary:hover{transform:translateY(-2px)}
+
+    /* Hero Card & Community Conversation Effects */
+    .hero-card{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:26px;padding:24px}
+    .mini-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .live{
+      font-size:11px;
+      font-weight:800;
+      color:#1F5D50;
+      background:#e5eee8;
+      padding:5px 12px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+    .live-dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:#16a34a;
+      box-shadow:0 0 0 0 rgba(22, 163, 74, 0.7);
+      animation:livePulse 1.8s infinite;
+    }
+    @keyframes livePulse{
+      0%{transform:scale(0.95);box-shadow:0 0 0 0 rgba(22, 163, 74, 0.7)}
+      70%{transform:scale(1);box-shadow:0 0 0 7px rgba(22, 163, 74, 0)}
+      100%{transform:scale(0.95);box-shadow:0 0 0 0 rgba(22, 163, 74, 0)}
+    }
+
+    .conversation{background:#f1eee3;border-radius:20px;padding:18px;min-height:210px;display:flex;flex-direction:column;justify-content:center}
+    .bubble{
+      padding:12px 15px;
+      border-radius:16px;
+      background:white;
+      box-shadow:0 4px 14px rgba(20,30,50,.05);
+      margin-bottom:10px;
+      font-size:13px;
+      color:#4d5c70;
+      transition:all .35s cubic-bezier(0.16, 1, 0.3, 1);
+      animation:bubbleSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .bubble:last-child{margin-bottom:0}
+    .bubble:hover{transform:translateX(4px);box-shadow:0 6px 18px rgba(20,30,50,.09)}
+    .bubble.me{background:#1F5D50;color:white;margin-left:30px}
+    .bubble strong{display:block;color:var(--ink);margin-bottom:2px;font-size:12px}
+    .bubble.me strong{color:#fffdf8}
+
+    @keyframes bubbleSlideIn{
+      0%{opacity:0;transform:translateY(12px) scale(0.97)}
+      100%{opacity:1;transform:translateY(0) scale(1)}
+    }
+
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+    .stat{background:white;border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center}
+    .stat b{display:block;font-size:20px;color:var(--deep-green)}.stat span{font-size:9.5px;color:var(--muted);font-weight:700}
+
+    /* Sections */
+    section{padding:80px 0}
+    .section-head{text-align:center;max-width:680px;margin:0 auto 40px}
+    .section-head .label{color:var(--primary);font-size:12px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase}
+    .section-head h2{font-size:38px;line-height:1.1;letter-spacing:-1.5px;margin:8px 0 12px}
+    .section-head p{color:var(--muted)}
+    
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .feature{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:28px;transition:.25s}
+    .feature:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--sage-green)}
+    .icon{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:#eef0ff;color:var(--primary);margin-bottom:18px;font-size:20px}
+    .feature h3{font-size:18px;margin-bottom:8px}.feature p{color:var(--muted);font-size:14px}
+
+    /* About Section */
+    .about{background:#111d2c;color:white}
+    .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center}
+    .about .label{color:#72dfbf}
+    .about h2{font-size:42px;line-height:1.08;letter-spacing:-2px;margin:8px 0 18px}
+    .about p{color:#aeb9c8;margin-bottom:16px}
+    .check{display:flex;gap:10px;align-items:flex-start;margin:12px 0;color:#dce4ee;font-size:14px}
+    .check i{width:21px;height:21px;border-radius:50%;display:grid;place-items:center;background:#1caa84;font-style:normal;font-size:12px;flex:none}
+    .growth-card{background:linear-gradient(145deg,#1b2a3d,#142131);border:1px solid #2d3d51;border-radius:26px;padding:26px;box-shadow:0 20px 45px rgba(0,0,0,.3)}
+    .growth-card h3{font-size:18px;margin-bottom:18px}
+    .bar{margin:16px 0}.bar-row{display:flex;justify-content:space-between;font-size:12px;color:#b9c4d1;margin-bottom:6px}.track{height:8px;border-radius:10px;background:#2c3b4d;overflow:hidden}
+    .fill{height:100%;border-radius:10px;background:linear-gradient(90deg,#1F5D50,#D9B86C)}
+
+    /* MEET THE FOUNDING TEAM SECTION */
+    .creators-section{padding:80px 0;background:#fff;border-top:1px solid var(--line)}
+    .creators-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:20px}
+    .creator-card{
+      background:var(--surface);border:1px solid var(--line);border-radius:22px;
+      padding:28px 20px;text-align:center;box-shadow:0 8px 25px rgba(38,51,47,.05);
+      transition:.25s;display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+    }
+    .creator-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--sage-green)}
+    .creator-avatar{
+      width:74px;height:74px;border-radius:20px;display:grid;place-items:center;
+      font-size:22px;font-weight:900;color:#fff;margin-bottom:16px;
+    }
+    .av-komal{background:linear-gradient(135deg,#1F5D50,#2c7e6d)}
+    .av-krishna{background:linear-gradient(135deg,#D9B86C,#b3903f);color:#26332F}
+    .av-rahees{background:linear-gradient(135deg,#26332F,#3d524b)}
+    .av-nuzhat{background:linear-gradient(135deg,#8FAF9A,#658d74);color:#26332F}
+
+    .creator-name{font-size:18px;font-weight:800;color:var(--charcoal);margin-bottom:4px}
+    .creator-role{font-size:11.5px;font-weight:800;color:var(--primary);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:12px;min-height:30px;display:flex;align-items:center;justify-content:center}
+    .creator-bio{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px;flex-grow:1}
+    .creator-tag{display:inline-block;padding:5px 12px;border-radius:999px;background:#e5eee8;color:var(--primary);font-size:11px;font-weight:800;border:1px solid rgba(143,175,154,.4)}
+
+    /* Reviews Section */
+    .reviews-section{background:#fdfaf2;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .reviews-layout{display:grid;grid-template-columns:1fr 1.3fr;gap:40px;align-items:start}
+    .review-form-card{background:white;border:1px solid var(--line);padding:26px;border-radius:var(--radius);box-shadow:0 12px 35px rgba(20,35,55,.06)}
+    .star-rating{display:flex;gap:6px;font-size:24px;cursor:pointer;color:#d9d9d9;margin-bottom:10px;user-select:none}
+    .star-rating span.active{color:var(--soft-gold)}
+    .reviews-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .review-card{background:white;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(38,51,47,.04);display:flex;flex-direction:column;justify-content:space-between;transition:.25s}
+    .review-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+    .review-stars{color:var(--soft-gold);font-size:13.5px;margin-bottom:6px}
+    .review-text{font-size:13px;color:#4f5e58;margin-bottom:10px;line-height:1.55}
+    .reviewer-meta{display:flex;align-items:center;gap:10px}
+    .reviewer-avatar{width:34px;height:34px;border-radius:10px;background:var(--deep-green);color:white;font-weight:800;display:grid;place-items:center;font-size:11.5px}
+    .reviewer-info h4{font-size:12.5px;color:var(--charcoal)}
+    .reviewer-info small{color:var(--muted);font-size:10.5px}
+    
+    .voice-recorder-box{background:#f8fafc;border:1px dashed var(--line);border-radius:12px;padding:12px;margin-bottom:12px}
+    .voice-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .btn-record{background:#fff;border:1px solid var(--line);color:var(--ink);padding:6px 12px;border-radius:9px;font-weight:700;font-size:11.5px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:.2s}
+    .btn-record.recording{background:#ffebee;color:#c62828;border-color:#ef9a9a}
+    .btn-record-reset{background:none;border:0;color:#c9302c;font-size:11.5px;cursor:pointer;font-weight:700;text-decoration:underline}
+    .audio-player-custom{width:100%;height:32px;margin-top:8px;border-radius:8px;outline:none}
+    .review-audio-badge{margin-top:8px;padding:6px 8px;background:#e5eee8;border-radius:8px}
+
+    .more-reviews-wrapper{text-align:center;margin-top:18px}
+    .btn-toggle-more{background:#fff;border:1.5px solid var(--primary);color:var(--primary);padding:9px 18px;border-radius:11px;font-weight:750;font-size:12.5px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px}
+    .btn-toggle-more:hover{background:var(--primary);color:#fff}
+
+    .admin-bar{display:flex;justify-content:space-between;align-items:center;margin-top:22px;padding:12px 18px;background:#e5eee8;border-radius:14px;border:1px solid var(--sage-green)}
+    .admin-btn{background:var(--primary);color:white;border:0;padding:7px 14px;border-radius:9px;font-weight:700;font-size:11.5px;cursor:pointer;transition:.2s}
+    .admin-btn:hover{background:var(--primary-dark)}
+    
+    .admin-modal{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:999;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+    .admin-modal.open{display:flex}
+    .admin-modal-content{background:white;width:min(720px,94%);max-height:88vh;overflow-y:auto;border-radius:22px;padding:26px;box-shadow:0 25px 60px rgba(0,0,0,.3)}
+    .admin-tabs{display:flex;gap:10px;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:10px}
+    .tab-btn{border:0;background:transparent;padding:7px 12px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;color:var(--muted)}
+    .tab-btn.active{background:#e5eee8;color:var(--primary)}
+    .pending-review-item{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px}
+    .btn-action{padding:6px 12px;border-radius:7px;font-weight:700;font-size:11.5px;cursor:pointer;border:0;margin-right:6px}
+    .btn-approve{background:#1F5D50;color:white}
+    .btn-reject{background:#d9534f;color:white}
+    .btn-unapprove{background:#f0ad4e;color:white}
+
+    /* Contact Section */
+    .contact-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:45px;align-items:start}
+    .contact-copy h2{font-size:38px;line-height:1.08;letter-spacing:-1.8px;margin:8px 0 14px}
+    .contact-copy p{color:var(--muted);margin-bottom:22px}
+    .contact-info{display:grid;gap:12px}
+    .info{background:white;border:1px solid var(--line);padding:14px 16px;border-radius:14px}
+    .info b{display:block;font-size:12px}.info span{font-size:13px;color:var(--muted)}
+    form{background:white;border:1px solid var(--line);padding:26px;border-radius:22px;box-shadow:0 12px 35px rgba(20,35,55,.06)}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:grid;gap:6px;margin-bottom:14px}.field.full{grid-column:1/-1}
+    label{font-size:12px;font-weight:800}.field input,.field textarea,.field select{width:100%;border:1px solid #dfe6ef;border-radius:11px;padding:11px 12px;outline:none;font:inherit;font-size:13px;background:#fbfcfe}
+    .field textarea{min-height:95px;resize:vertical}
+    .field input:focus,.field textarea:focus{border-color:var(--sage-green);box-shadow:0 0 0 3px rgba(31,93,80,.1)}
+    .submit{width:100%;border:0;border-radius:11px;padding:12px;background:var(--ink);color:white;font-weight:800;cursor:pointer;transition:.2s}
+    .submit:hover{background:var(--primary-dark);transform:translateY(-1px)}
+    .form-status{text-align:center;margin-top:10px;color:#1F5D50;font-size:12px;display:none}
+
+    /* Footer */
+    .site-footer{background:#123d31;color:#d8dfda;padding:72px 0 25px;margin-top:0}
+    .footer-wrap-three{width:min(1160px,86%);margin:0 auto;display:grid;grid-template-columns:1.05fr 1fr 1fr;gap:80px;align-items:start}
+    .footer-brand-link{display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff}
+    .footer-brand-logo{width:72px;height:72px;object-fit:contain;display:block;border-radius:15px;background:#F7F3E8;flex:none}
+    .footer-brand-name{display:flex;flex-direction:column;line-height:1.05}
+    .footer-brand-name strong{color:#fff;font-size:21px;font-weight:800;letter-spacing:-.4px}
+    .footer-brand-name small{margin-top:7px;color:#8fa9c9;font-size:13px;letter-spacing:1.2px;font-weight:700}
+    .footer-brand-description{display:block;margin:22px 0 0 0;width:100%;max-width:430px;color:#aebbb6;font-size:15px;line-height:1.9}
+    .footer-col{display:flex;flex-direction:column;align-items:flex-start}
+    .footer-col h4{color:#d9b86c;font-size:13px;letter-spacing:4px;margin:0 0 28px;font-weight:800}
+    .footer-col a,.channel-item{display:flex;align-items:center;gap:14px;color:#d2d9d5;font-size:17px;line-height:1.4;margin:0 0 20px;transition:.2s}
+    .footer-col a:hover{color:#fffdf8;transform:translateX(3px)}
+    .footer-icon{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;flex:none;color:#c9d2cd}
+    .footer-icon svg{width:21px;height:21px;display:block}
+    .footer-bottom{width:min(1160px,86%);margin:28px auto 0;padding-top:22px;border-top:1px solid rgba(216,223,218,.14);font-size:12px;color:#91a39a}
+
+    /* Mobile Responsive */
+    @media(max-width:1024px){
+      .creators-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:900px){
+      .hero-grid,.about-grid,.contact-wrap,.reviews-layout{grid-template-columns:1fr;gap:40px}
+      .features,.reviews-grid{grid-template-columns:1fr 1fr}
+      .footer-wrap-three{grid-template-columns:1fr 1fr;gap:48px}
+      .footer-brand{grid-column:1/-1}
+    }
+    @media(max-width:680px){
+      .nav-inner{height:68px}
+      .nav-links{
+        display:none;
+        position:absolute;
+        top:68px;
+        left:4%;
+        right:4%;
+        background:white;
+        border:1px solid var(--line);
+        border-radius:16px;
+        padding:16px;
+        box-shadow:var(--shadow);
+        flex-direction:column;
+        gap:5px;
+        align-items:stretch;
+      }
+      .nav-links.open{display:flex}
+      .nav-links a{padding:11px}
+      .join-btn{display:none}
+      .menu{display:block}
+      .hero{padding-top:115px}
+      .features,.reviews-grid,.form-grid,.creators-grid{grid-template-columns:1fr}
+      .footer-wrap-three{grid-template-columns:1fr;gap:35px}
+      .footer-brand{grid-column:auto}
+    }
+
+    /* ================= AI ASSISTANT STYLING ================= */
+    .gt-ai-widget {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99999;
+      font-family: inherit;
+    }
+
+    .gt-ai-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--deep-green), #17493f);
+      color: #fff;
+      border: 1px solid rgba(217,184,108,0.4);
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(31,93,80,0.35);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .gt-ai-toggle:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 14px 38px rgba(31,93,80,0.45);
+    }
+
+    .gt-ai-icon {
+      font-size: 16px;
+      animation: sparkleRotate 3s infinite ease-in-out;
+    }
+
+    @keyframes sparkleRotate {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(20deg) scale(1.15); }
+    }
+
+    .gt-ai-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    .gt-ai-window {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 14px);
+      right: 0;
+      width: min(390px, calc(100vw - 32px));
+      height: min(560px, calc(100vh - 120px));
+      background: #fffdf8;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 24px 60px rgba(38,51,47,0.22);
+      flex-direction: column;
+      overflow: hidden;
+      animation: aiPopUp 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .gt-ai-window.open {
+      display: flex;
+    }
+
+    @keyframes aiPopUp {
+      0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .gt-ai-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: #1F5D50;
+      color: #fff;
+      border-bottom: 1px solid rgba(217,184,108,0.25);
+    }
+
+    .gt-ai-header-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .gt-ai-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      background: #F7F3E8;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .gt-ai-name {
+      display: block;
+      font-size: 14.5px;
+      letter-spacing: -0.2px;
+    }
+
+    .gt-ai-status {
+      font-size: 11px;
+      color: #a8d5c4;
+    }
+
+    .gt-ai-close {
+      background: none;
+      border: 0;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px;
+      line-height: 1;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+
+    .gt-ai-close:hover {
+      opacity: 1;
+    }
+
+    .gt-ai-chips {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 10px 14px;
+      background: #f4ede1;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      scrollbar-width: none;
+    }
+
+    .gt-ai-chips::-webkit-scrollbar {
+      display: none;
+    }
+
+    .gt-chip {
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--charcoal);
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .gt-chip:hover {
+      background: var(--deep-green);
+      color: #fff;
+      border-color: var(--deep-green);
+    }
+
+    .gt-ai-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #fffdf8;
+    }
+
+    .gt-msg {
+      display: flex;
+      width: 100%;
+    }
+
+    .gt-msg.bot {
+      justify-content: flex-start;
+    }
+
+    .gt-msg.user {
+      justify-content: flex-end;
+    }
+
+    .gt-msg-bubble {
+      max-width: 82%;
+      padding: 11px 14px;
+      border-radius: 16px;
+      font-size: 13px;
+      line-height: 1.5;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    }
+
+    .gt-msg.bot .gt-msg-bubble {
+      background: #f1ede3;
+      color: #26332F;
+      border-bottom-left-radius: 4px;
+    }
+
+    .gt-msg.user .gt-msg-bubble {
+      background: var(--deep-green);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+
+    .gt-msg-bubble a {
+      color: #D9B86C;
+      font-weight: 800;
+      text-decoration: underline;
+    }
+
+    .gt-msg.bot .gt-msg-bubble a {
+      color: #1F5D50;
+    }
+
+    .gt-msg-bubble ul {
+      margin: 8px 0 4px 16px;
+      padding: 0;
+    }
+
+    .gt-msg-bubble li {
+      margin-bottom: 4px;
+    }
+
+    .gt-ai-input-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 14px;
+      background: #fff;
+      border-top: 1px solid var(--line);
+    }
+
+    .gt-ai-input-bar input {
+      flex: 1;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 13px;
+      outline: none;
+      background: #faf8f3;
+      transition: border-color 0.2s;
+    }
+
+    .gt-ai-input-bar input:focus {
+      border-color: var(--deep-green);
+      background: #fff;
+    }
+
+    .gt-ai-send-btn {
+      background: var(--deep-green);
+      color: #fff;
+      border: 0;
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      flex-shrink: 0;
+    }
+
+    .gt-ai-send-btn:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 680px) {
+      .gt-ai-widget {
+        bottom: 16px;
+        right: 16px;
+      }
+      .gt-ai-window {
+        width: calc(100vw - 32px);
+        height: 72vh;
+        bottom: calc(100% + 12px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" id="mainNav">
+    <div class="container nav-inner">
+      <a class="brand" href="#home" aria-label="Grow Together Community home">
+        <div class="logo"><img src="logo.jpeg" alt="Grow Together Community logo"></div>
+        <div>Grow Together<small>Community</small></div>
+      </a>
+      <button class="menu" id="menuToggleBtn" aria-label="Open menu">☰</button>
+      <div class="nav-links" id="navLinks">
+        <a href="#home" class="active">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="wall-of-fame.html">Wall of Fame</a>
+        <a href="ebook.html">E-Book</a>
+        <a href="courses.html">Courses</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <a class="join-btn" href="#contact">Join Community</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">A community built for confident communication</div>
+          <h1>Speak • Connect • <span class="gradient">Grow.</span></h1>
+          <p>Grow Together Community is a friendly space where people practice English, build communication confidence, meet supportive members, and improve one conversation at a time.</p>
+          <div class="actions">
+            <a class="primary" href="#contact">Start Growing →</a>
+            <a class="secondary" href="#reviews">Read Member Reviews</a>
+          </div>
+        </div>
+        
+        <div class="hero-card">
+          <div class="mini-top">
+            <strong>Community Conversation</strong>
+            <span class="live"><span class="live-dot"></span> LIVE ENERGY</span>
+          </div>
+          <div class="conversation" id="conversationStream">
+            <div class="bubble"><strong>Rahees · Member</strong>I used to hesitate speaking English. Now I enjoy starting new conversations!</div>
+            <div class="bubble me"><strong>Komal · Host</strong>That’s the true spirit of Grow Together! Let’s keep learning together. 🚀</div>
+            <div class="bubble"><strong>Fathima · Member</strong>Daily speaking practice with everyone is making a huge difference.</div>
+          </div>
+          <div class="stats">
+            <div class="stat"><b>1K+</b><span>CONVERSATIONS</span></div>
+            <div class="stat"><b>50+</b><span>ACTIVE MEMBERS</span></div>
+            <div class="stat"><b>∞</b><span>WAYS TO GROW</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div class="label">Why Grow Together</div>
+          <h2>A better way to build communication confidence.</h2>
+          <p>No pressure. No judgement. Just real conversations, consistent practice, and people who want to see you succeed.</p>
+        </div>
+        <div class="features">
+          <article class="feature"><div class="icon">💬</div><h3>Practice Naturally</h3><p>Improve everyday English through simple conversations that feel useful and real.</p></article>
+          <article class="feature"><div class="icon">🤝</div><h3>Supportive Community</h3><p>Connect with members who encourage each other and celebrate progress together.</p></article>
+          <article class="feature"><div class="icon">🚀</div><h3>Sessions Everyday</h3><p>Join our daily sessions to practice English and build your communication skills.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="container about-grid">
+        <div>
+          <div class="label">About us</div>
+          <h2>One community. Many voices. One goal: grow.</h2>
+          <p>We believe communication is not about speaking perfect English. It is about having the confidence to express your ideas, connect with others, and keep improving.</p>
+          <div class="check"><i>✓</i><span>Beginner-friendly conversations with a positive atmosphere.</span></div>
+          <div class="check"><i>✓</i><span>Opportunities to meet, communicate, and learn from other members.</span></div>
+          <div class="check"><i>✓</i><span>A growth mindset that values progress over perfection.</span></div>
+        </div>
+        <div class="growth-card" id="growthCard">
+          <h3>Your communication growth</h3>
+          <div class="bar"><div class="bar-row"><span>Confidence</span><b>82%</b></div><div class="track"><div class="fill" style="width:82%"></div></div></div>
+          <div class="bar"><div class="bar-row"><span>Conversation</span><b>74%</b></div><div class="track"><div class="fill" style="width:74%"></div></div></div>
+          <div class="bar"><div class="bar-row"><span>Vocabulary</span><b>68%</b></div><div class="track"><div class="fill" style="width:68%"></div></div></div>
+          <div class="bar"><div class="bar-row"><span>Consistency</span><b>91%</b></div><div class="track"><div class="fill" style="width:91%"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEET THE FOUNDING TEAM SECTION -->
+    <section id="creators" class="creators-section">
+      <div class="container">
+        <div class="section-head">
+          <div class="label">Founding Team</div>
+          <h2>Meet the <span class="gradient">Founding Team.</span></h2>
+          <p>The dedicated team building Grow Together from an idea into an inspiring, welcoming space for everyone.</p>
+        </div>
+
+        <div class="creators-grid">
+          <!-- Komal Gupta -->
+          <article class="creator-card">
+            <div class="creator-avatar av-komal">KG</div>
+            <h3 class="creator-name">Komal Gupta</h3>
+            <span class="creator-role">Co-Founder & Community Lead</span>
+            <p class="creator-bio">Building Grow Together from an idea into a community where people can Speak • Connect • Grow.</p>
+            <span class="creator-tag">Founder & Host</span>
+          </article>
+
+          <!-- Krishna -->
+          <article class="creator-card">
+            <div class="creator-avatar av-krishna">KG</div>
+            <h3 class="creator-name">Krishna Gupta</h3>
+            <span class="creator-role">Co-Founder & Community Engagement Lead</span>
+            <p class="creator-bio">Part of Grow Together from the beginning, connecting with members through 1:1 interviews and helping build the community.</p>
+            <span class="creator-tag">Community Engagement</span>
+          </article>
+
+          <!-- Rahees -->
+          <article class="creator-card">
+            <div class="creator-avatar av-rahees">MR</div>
+            <h3 class="creator-name">Muhammed Rahees</h3>
+            <span class="creator-role">Website Developer</span>
+            <p class="creator-bio">Building the digital home of Grow Together and bringing the community's vision online.</p>
+            <span class="creator-tag">Digital Platform</span>
+          </article>
+
+          <!-- Nuzhat -->
+          <article class="creator-card">
+            <div class="creator-avatar av-nuzhat">NF</div>
+            <h3 class="creator-name">Nuzhath Fathima</h3>
+            <span class="creator-role">Community Outreach & Co-Host Lead</span>
+            <p class="creator-bio">Driving Grow Together’s outreach, content distribution and community connections, while supporting the team as co-host.</p>
+            <span class="creator-tag">Outreach & Co-Host</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEW & ADMIN SECTION -->
+    <section id="reviews" class="reviews-section">
+      <div class="container">
+        <div class="section-head">
+          <div class="label">Community Reviews</div>
+          <h2>Voices from our visitors & members.</h2>
+          <p>Leave a review or record an optional voice message. Once approved by our admin, it will showcase here on our homepage and on the Wall of Fame.</p>
+        </div>
+
+        <div class="reviews-layout">
+          <div class="review-form-card">
+            <h3>Leave a Review</h3>
+            <p style="color:var(--muted);font-size:13px;margin:6px 0 18px">Share your thoughts via text or voice! All reviews are moderated.</p>
+            <form id="reviewSubmitForm" onsubmit="handleReviewSubmit(event)" style="padding:0;border:0;box-shadow:none">
+              <div class="field">
+                <label>Your Rating</label>
+                <div class="star-rating" id="starSelector">
+                  <span onclick="setRating(1)">★</span>
+                  <span onclick="setRating(2)">★</span>
+                  <span onclick="setRating(3)">★</span>
+                  <span onclick="setRating(4)">★</span>
+                  <span onclick="setRating(5)" class="active">★</span>
+                </div>
+                <input type="hidden" id="reviewRating" value="5">
+              </div>
+
+              <div class="field">
+                <label for="reviewName">Your Name</label>
+                <input id="reviewName" required placeholder="e.g. Sarah M.">
+              </div>
+
+              <div class="field">
+                <label for="reviewRole">Role / City (Optional)</label>
+                <input id="reviewRole" placeholder="e.g. Daily Session Member">
+              </div>
+
+              <div class="field">
+                <label for="reviewMessage">Your Feedback / Review</label>
+                <textarea id="reviewMessage" required placeholder="Tell us how Grow Together has helped your speaking or website experience..."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Voice Review <span style="font-weight:400;color:var(--muted)">(Optional)</span></label>
+                <div class="voice-recorder-box">
+                  <div class="voice-controls">
+                    <button type="button" id="recordVoiceBtn" class="btn-record" onclick="toggleVoiceRecording()">
+                      <span id="recIcon">🎙️</span> <span id="recText">Record Voice Message</span>
+                    </button>
+                    <span id="recTimer" style="font-size:12px;color:var(--muted);display:none;font-weight:700">00:00</span>
+                    <button type="button" id="discardVoiceBtn" class="btn-record-reset" style="display:none" onclick="discardVoiceRecording()">Discard Voice</button>
+                  </div>
+                  <audio id="audioPreview" class="audio-player-custom" controls style="display:none"></audio>
+                </div>
+              </div>
+
+              <button class="submit" type="submit">Submit Review →</button>
+              <div id="reviewSuccessStatus" class="form-status">🎉 Thank you! Your review was sent to the admin. It will appear here and on the Wall of Fame once approved!</div>
+            </form>
+          </div>
+
+          <div>
+            <div id="reviewsShowcase" class="reviews-grid"></div>
+            
+            <div id="moreReviewsWrapper" class="more-reviews-wrapper" style="display:none">
+              <button id="toggleMoreBtn" class="btn-toggle-more" onclick="toggleShowAllReviews()">
+                <span>View More Reviews</span> ↓
+              </button>
+            </div>
+            
+            <div class="admin-bar">
+              <div>
+                <strong style="font-size:13px;color:var(--primary);display:block">Admin Moderation</strong>
+                <span id="pendingCountBadge" style="font-size:11px;color:var(--muted)">0 pending reviews waiting</span>
+              </div>
+              <button class="admin-btn" onclick="openAdminModal()">Open Admin Panel 🔒</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Admin Modal -->
+    <div id="adminModal" class="admin-modal">
+      <div class="admin-modal-content">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <div>
+            <h3 style="color:var(--deep-green);font-size:20px">Admin Moderation Dashboard</h3>
+            <small style="color:var(--muted)">Approved reviews appear on Home & Wall of Fame</small>
+          </div>
+          <button onclick="closeAdminModal()" style="border:0;background:none;font-size:22px;cursor:pointer;color:var(--muted)">✕</button>
+        </div>
+
+        <div class="admin-tabs">
+          <button class="tab-btn active" onclick="setAdminTab('pending', this)" id="tabPending">Pending (<span id="tabPendingCount">0</span>)</button>
+          <button class="tab-btn" onclick="setAdminTab('approved', this)">Approved (<span id="tabApprovedCount">0</span>)</button>
+          <button class="tab-btn" onclick="setAdminTab('all', this)">All Reviews</button>
+        </div>
+
+        <div id="adminReviewList" style="min-height:180px"></div>
+
+        <div style="margin-top:20px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:11px;color:var(--muted)">Password: <code>admin</code></span>
+          <button class="admin-btn" onclick="closeAdminModal()" style="background:var(--charcoal)">Close Dashboard</button>
+        </div>
+      </div>
+    </div>
+
+    <section id="contact">
+      <div class="container contact-wrap">
+        <div class="contact-copy">
+          <div class="label" style="color:var(--primary);font-size:12px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase">Contact</div>
+          <h2>Ready to grow your communication?</h2>
+          <p>Send us a message and take your first step toward becoming a more confident communicator.</p>
+          <div class="contact-info">
+            <div class="info"><b>Community</b><span>Grow Together Community</span></div>
+            <div class="info"><b>Email</b><span>growtogether1906@gmail.com</span></div>
+            <div class="info"><b>Focus</b><span>English Communication · Confidence · Community</span></div>
+          </div>
+        </div>
+        <form action="https://formspree.io/f/mljrgadk" method="POST">
+          <div class="form-grid">
+            <div class="field"><label for="name">Your name</label><input id="name" name="name" required placeholder="Enter your name"></div>
+            <div class="field"><label for="email">Email address</label><input id="email" name="email" type="email" required placeholder="you@example.com"></div>
+            <div class="field full"><label for="phone">Phone number</label><input id="phone" name="phone" required placeholder="+91 9XXXXXXXX7"></div>
+            <div class="field full"><label for="message">Message</label><textarea id="message" required placeholder="Tell us why you want to join..."></textarea></div>
+          </div>
+          <button class="submit" type="submit">Send Message →</button>
+          <div id="formStatus" class="form-status">Thanks! Your message has been recorded.</div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-wrap-three">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-brand-link" aria-label="Grow Together Community">
+          <img class="footer-brand-logo" src="logo.jpeg" alt="Grow Together Community logo">
+          <span class="footer-brand-name">
+            <strong>Grow Together</strong>
+            <small>COMMUNITY</small>
+          </span>
+        </a>
+        <p class="footer-brand-description">A community where you practice communication, build confidence and grow through real conversations.</p>
+      </div>
+      <div class="footer-col">
+        <h4>EXPLORE</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="wall-of-fame.html">Wall of Fame</a>
+        <a href="ebook.html">E-Book</a>
+        <a href="courses.html">Courses</a>
+        <a href="#contact">Join Us</a>
+      </div>
+      
+      <div class="footer-col connect-col">
+        <h4>CONNECT</h4>
+        <a href="https://www.instagram.com/growtogether_1906?igsh=ZWp0d24zdG41NnVt" target="_blank" rel="noopener noreferrer">
+          <span class="footer-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.7" r="1.1" fill="currentColor"/></svg></span>Instagram
+        </a>
+        <a href="https://chat.whatsapp.com/FqmaGdi75EE4KRPke0odGj" target="_blank" rel="noopener noreferrer">
+          <span class="footer-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.5a8.2 8.2 0 0 1-12.2 7.1L4 20l1.4-4.1A8.2 8.2 0 1 1 20.5 11.5Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 8.7c.2-.5.5-.6.9-.6h.5c.2 0 .4.1.5.4l.7 1.7c.1.3.1.5-.1.7l-.6.7c.6 1.1 1.5 2 2.6 2.6l.7-.6c.2-.2.4-.2.7-.1l1.7.7c.3.1.4.3.4.5v.5c0 .4-.1.7-.6.9-1 .4-2.3-.1-3.9-1.2-1.4-1-2.7-2.3-3.7-3.7-1.1-1.6-1.6-2.9-1.2-3.9Z" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></span>WhatsApp Community
+        </a>
+        <a href="https://whatsapp.com/channel/0029VbCaKzWK0IBhBsmbAN11" target="_blank" rel="noopener noreferrer">
+          <span class="footer-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M7.8 8.2a5.4 5.4 0 0 0 0 7.6M16.2 8.2a5.4 5.4 0 0 1 0 7.6M5 5.5a9.3 9.3 0 0 0 0 13M19 5.5a9.3 9.3 0 0 1 0 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>WhatsApp Channel
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Grow Together Community · Speak. Connect. Grow.</div>
+  </footer>
+
+  <!-- ================= AI ASSISTANT POPUP WIDGET ================= -->
+  <div class="gt-ai-widget">
+    <button class="gt-ai-toggle" id="gtAiToggleBtn" aria-label="Open Grow Together AI Assistant">
+      <span class="gt-ai-icon">✨</span>
+      <span class="gt-ai-label">Ask AI</span>
+      <span class="gt-ai-status-dot"></span>
+    </button>
+
+    <div class="gt-ai-window" id="gtAiWindow">
+      <div class="gt-ai-header">
+        <div class="gt-ai-header-brand">
+          <div class="gt-ai-avatar">🌱</div>
+          <div>
+            <strong class="gt-ai-name">Grow Together AI</strong>
+            <small class="gt-ai-status">Online · Ready to help</small>
+          </div>
+        </div>
+        <button class="gt-ai-close" id="gtAiCloseBtn" aria-label="Close Assistant">✕</button>
+      </div>
+
+      <div class="gt-ai-chips" id="gtAiChips">
+        <button class="gt-chip" onclick="askPreset('What is Grow Together?')">💡 What is this?</button>
+        <button class="gt-chip" onclick="askPreset('Who is the founding team?')">👑 Founding Team</button>
+        <button class="gt-chip" onclick="askPreset('How do I join daily sessions?')">🎙️ Daily Sessions</button>
+        <button class="gt-chip" onclick="askPreset('Where can I get certificates?')">🏆 Certificates</button>
+        <button class="gt-chip" onclick="askPreset('Are the e-books free?')">📚 Free E-Books</button>
+      </div>
+
+      <div class="gt-ai-messages" id="gtAiMessages">
+        <div class="gt-msg bot">
+          <div class="gt-msg-bubble">
+            Hello! 👋 Welcome to <strong>Grow Together Community</strong>.
+            <br><br>
+            I can help you with details about our founding team, daily speaking rooms, recorded courses, certificates, e-books, or how to join. What would you like to know?
+          </div>
+        </div>
+      </div>
+
+      <form class="gt-ai-input-bar" id="gtAiForm" onsubmit="handleAiSubmit(event)">
+        <input 
+          type="text" 
+          id="gtAiInput" 
+          placeholder="Ask anything about Grow Together..." 
+          autocomplete="off" 
+          required
+        />
+        <button type="submit" class="gt-ai-send-btn" aria-label="Send Message">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // 1. MOBILE NAV TOGGLE
+    const menuBtn = document.getElementById('menuToggleBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navLinks.classList.toggle('open');
+    });
+
+    document.querySelectorAll('#navLinks a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!navLinks.contains(e.target) && e.target !== menuBtn) {
+        navLinks.classList.remove('open');
+      }
+    });
+
+    // 2. DYNAMIC CONVERSATION STREAM EFFECT (Features: Rahees, Fathima, Nivetha, Komal [Host], Arpita)
+    const chatSamples = [
+      { name: "Rahees · Member", text: "I used to hesitate speaking English. Now I enjoy starting new conversations!" },
+      { name: "Komal · Host", text: "That’s the true spirit of Grow Together! Let’s keep learning together. 🚀" },
+      { name: "Fathima · Member", text: "Daily speaking practice with everyone is making a huge difference." },
+      { name: "Nivetha · Member", text: "The speaking rooms are so welcoming. Overcame my fear in just two weeks! 🌟" },
+      { name: "Arpita · Member", text: "I spoke for 3 minutes continuously today without hesitation! 🎉" },
+      { name: "Komal · Host", text: "Proud of your progress Arpita, Nivetha, and everyone showing up daily! Keep shining." }
+    ];
+    let chatIndex = 0;
+    setInterval(() => {
+      const stream = document.getElementById('conversationStream');
+      if (!stream) return;
+      const item = chatSamples[chatIndex % chatSamples.length];
+      const bubble = document.createElement('div');
+      bubble.className = item.name.includes("Host") ? 'bubble me' : 'bubble';
+      bubble.innerHTML = `<strong>${item.name}</strong>${item.text}`;
+      stream.appendChild(bubble);
+      if (stream.children.length > 3) {
+        stream.removeChild(stream.children[0]);
+      }
+      chatIndex++;
+    }, 4000);
+
+    // 3. REVIEWS SEED DATA & STORAGE
+    const defaultReviews = [
+      { id: 'rev-1', name: 'Kavita Menon', role: 'Community Member', rating: 5, text: 'Grow Together gave me the confidence to speak up during workplace meetings. Daily practice sessions are comfortable and friendly!', audioData: null, status: 'approved', date: '18 Aug 2026' },
+      { id: 'rev-2', name: 'Rohan Sharma', role: 'College Student', rating: 5, text: 'The most non-judgmental community for English learners. Everyone supports each other sincerely.', audioData: null, status: 'approved', date: '19 Aug 2026' },
+      { id: 'rev-3', name: 'Aditi Rao', role: 'Job Seeker', rating: 5, text: 'The interview mock sessions helped me overcome my fear of public speaking. Highly recommended!', audioData: null, status: 'approved', date: '20 Aug 2026' },
+      { id: 'rev-4', name: 'Farhan Syed', role: 'Active Speaker', rating: 5, text: 'Learning new vocabulary every day with people from different cities is an incredible experience.', audioData: null, status: 'approved', date: '20 Aug 2026' },
+      { id: 'rev-5', name: 'Sneha Patel', role: 'Community Learner', rating: 5, text: 'Loved the website design and the mission! Eager to join the next live conversation session.', audioData: null, status: 'approved', date: '21 Aug 2026' }
+    ];
+
+    let currentAdminTab = 'pending';
+    let isShowingAllReviews = false;
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let currentRecordedAudioBase64 = null;
+    let recordingInterval = null;
+    let recordingSeconds = 0;
+
+    function getReviews() {
+      const stored = localStorage.getItem('gt_community_reviews');
+      return stored ? JSON.parse(stored) : defaultReviews;
+    }
+
+    function saveReviews(reviews) {
+      localStorage.setItem('gt_community_reviews', JSON.stringify(reviews));
+      renderShowcase();
+      renderAdminList();
+      updateBadgeCounts();
+    }
+
+    function setRating(val) {
+      document.getElementById('reviewRating').value = val;
+      const stars = document.querySelectorAll('#starSelector span');
+      stars.forEach((star, index) => {
+        if(index < val) star.classList.add('active');
+        else star.classList.remove('active');
+      });
+    }
+
+    async function toggleVoiceRecording() {
+      const btn = document.getElementById('recordVoiceBtn');
+      const recText = document.getElementById('recText');
+      const recIcon = document.getElementById('recIcon');
+      const timer = document.getElementById('recTimer');
+      const preview = document.getElementById('audioPreview');
+      const discardBtn = document.getElementById('discardVoiceBtn');
+
+      if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          audioChunks = [];
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.ondataavailable = event => { if (event.data.size > 0) audioChunks.push(event.data); };
+          mediaRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            const reader = new FileReader();
+            reader.readAsDataURL(audioBlob);
+            reader.onloadend = () => {
+              currentRecordedAudioBase64 = reader.result;
+              preview.src = currentRecordedAudioBase64;
+              preview.style.display = 'block';
+              discardBtn.style.display = 'inline-block';
+            };
+            stream.getTracks().forEach(track => track.stop());
+          };
+          mediaRecorder.start();
+          btn.classList.add('recording');
+          recText.textContent = 'Stop Recording';
+          recIcon.textContent = '⏹️';
+          timer.style.display = 'inline-block';
+          recordingSeconds = 0;
+          timer.textContent = '00:00';
+          recordingInterval = setInterval(() => {
+            recordingSeconds++;
+            const mins = String(Math.floor(recordingSeconds / 60)).padStart(2, '0');
+            const secs = String(recordingSeconds % 60).padStart(2, '0');
+            timer.textContent = `${mins}:${secs}`;
+            if (recordingSeconds >= 60) toggleVoiceRecording();
+          }, 1000);
+        } catch (err) {
+          alert('Microphone access is required to record a voice review. Please allow microphone permissions.');
+        }
+      } else if (mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+        clearInterval(recordingInterval);
+        btn.classList.remove('recording');
+        recText.textContent = 'Re-record Voice';
+        recIcon.textContent = '🎙️';
+        timer.style.display = 'none';
+      }
+    }
+
+    function discardVoiceRecording() {
+      currentRecordedAudioBase64 = null;
+      audioChunks = [];
+      const preview = document.getElementById('audioPreview');
+      preview.src = '';
+      preview.style.display = 'none';
+      document.getElementById('discardVoiceBtn').style.display = 'none';
+      document.getElementById('recText').textContent = 'Record Voice Message';
+    }
+
+    function handleReviewSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('reviewName').value.trim();
+      const role = document.getElementById('reviewRole').value.trim() || 'Community Visitor';
+      const text = document.getElementById('reviewMessage').value.trim();
+      const rating = parseInt(document.getElementById('reviewRating').value) || 5;
+
+      const newReview = {
+        id: 'rev-' + Date.now(),
+        name,
+        role,
+        rating,
+        text,
+        audioData: currentRecordedAudioBase64,
+        status: 'pending',
+        date: new Date().toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})
+      };
+
+      const reviews = getReviews();
+      reviews.unshift(newReview);
+      saveReviews(reviews);
+
+      document.getElementById('reviewSubmitForm').reset();
+      discardVoiceRecording();
+      setRating(5);
+      const statusMsg = document.getElementById('reviewSuccessStatus');
+      statusMsg.style.display = 'block';
+      setTimeout(() => statusMsg.style.display = 'none', 6000);
+    }
+
+    function toggleShowAllReviews() {
+      isShowingAllReviews = !isShowingAllReviews;
+      renderShowcase();
+    }
+
+    function renderShowcase() {
+      const showcase = document.getElementById('reviewsShowcase');
+      const moreWrapper = document.getElementById('moreReviewsWrapper');
+      const toggleBtn = document.getElementById('toggleMoreBtn');
+      const approved = getReviews().filter(r => r.status === 'approved');
+
+      if(approved.length === 0) {
+        showcase.innerHTML = `
+          <div style="grid-column:1/-1;text-align:center;padding:40px 20px;background:#fff;border:1px dashed var(--line);border-radius:18px">
+            <p style="color:var(--muted);font-size:14px">No approved reviews yet. Submit your review and admin will approve it shortly!</p>
+          </div>
+        `;
+        moreWrapper.style.display = 'none';
+        return;
+      }
+
+      const displayedReviews = isShowingAllReviews ? approved : approved.slice(0, 4);
+
+      showcase.innerHTML = displayedReviews.map(r => {
+        const initials = r.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+        const audioElement = r.audioData ? `
+          <div class="review-audio-badge">
+            <span style="font-size:11px;font-weight:700;color:var(--deep-green);display:block;margin-bottom:4px">🎙️ Voice Note</span>
+            <audio controls src="${r.audioData}" style="width:100%;height:30px;outline:none"></audio>
+          </div>
+        ` : '';
+
+        return `
+          <article class="review-card">
+            <div>
+              <div class="review-stars">${stars}</div>
+              <p class="review-text">“${escapeHtml(r.text)}”</p>
+              ${audioElement}
+            </div>
+            <div class="reviewer-meta" style="margin-top:14px">
+              <div class="reviewer-avatar">${initials}</div>
+              <div class="reviewer-info">
+                <h4>${escapeHtml(r.name)}</h4>
+                <small>${escapeHtml(r.role)}</small>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      if (approved.length > 4) {
+        moreWrapper.style.display = 'block';
+        toggleBtn.innerHTML = isShowingAllReviews ? `<span>Show Less</span> ↑` : `<span>View More Reviews (${approved.length - 4} more)</span> ↓`;
+      } else {
+        moreWrapper.style.display = 'none';
+      }
+    }
+
+    function openAdminModal() {
+      const pass = prompt('Enter Admin Password: (Default is "admin")');
+      if(pass === 'admin') {
+        document.getElementById('adminModal').classList.add('open');
+        renderAdminList();
+      } else if(pass !== null) {
+        alert('❌ Incorrect password.');
+      }
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal').classList.remove('open');
+    }
+
+    function setAdminTab(tab, btn) {
+      currentAdminTab = tab;
+      document.querySelectorAll('.admin-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+      renderAdminList();
+    }
+
+    function approveReview(id) {
+      const reviews = getReviews().map(r => r.id === id ? {...r, status: 'approved'} : r);
+      saveReviews(reviews);
+    }
+
+    function unapproveReview(id) {
+      const reviews = getReviews().map(r => r.id === id ? {...r, status: 'pending'} : r);
+      saveReviews(reviews);
+    }
+
+    function deleteReview(id) {
+      if(confirm('Are you sure you want to delete this review?')) {
+        const reviews = getReviews().filter(r => r.id !== id);
+        saveReviews(reviews);
+      }
+    }
+
+    function renderAdminList() {
+      const list = document.getElementById('adminReviewList');
+      const allReviews = getReviews();
+      let filtered = allReviews;
+
+      if(currentAdminTab === 'pending') filtered = allReviews.filter(r => r.status === 'pending');
+      else if(currentAdminTab === 'approved') filtered = allReviews.filter(r => r.status === 'approved');
+
+      if(filtered.length === 0) {
+        list.innerHTML = `<div style="text-align:center;padding:35px 20px;color:var(--muted);font-size:13px">No ${currentAdminTab} reviews found.</div>`;
+        return;
+      }
+
+      list.innerHTML = filtered.map(r => {
+        const audioAdmin = r.audioData ? `
+          <div style="margin:10px 0">
+            <span style="font-size:12px;font-weight:700;color:var(--deep-green);display:block;margin-bottom:4px">🎙️ Recorded Audio Attached:</span>
+            <audio controls src="${r.audioData}" style="width:100%;height:32px"></audio>
+          </div>
+        ` : '';
+
+        return `
+          <div class="pending-review-item">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+              <div>
+                <strong style="font-size:14px;color:var(--charcoal)">${escapeHtml(r.name)}</strong>
+                <small style="color:var(--muted);display:block">${escapeHtml(r.role)} · ${r.date || ''}</small>
+                <span style="color:var(--soft-gold);font-size:12px">${'★'.repeat(r.rating)}</span>
+              </div>
+              <span style="font-size:11px;font-weight:800;padding:4px 9px;border-radius:6px;background:${r.status === 'approved' ? '#d4edda' : '#fff3cd'};color:${r.status === 'approved' ? '#155724' : '#856404'}">
+                ${r.status.toUpperCase()}
+              </span>
+            </div>
+            <p style="font-size:13px;color:#4a5568;margin-bottom:8px;background:#fff;padding:10px;border-radius:8px;border:1px solid #edf2f7">
+              "${escapeHtml(r.text)}"
+            </p>
+            ${audioAdmin}
+            <div style="margin-top:10px">
+              ${r.status !== 'approved' ? `<button class="btn-action btn-approve" onclick="approveReview('${r.id}')">✓ Approve Review</button>` : `<button class="btn-action btn-unapprove" onclick="unapproveReview('${r.id}')">Hide / Move to Pending</button>`}
+              <button class="btn-action btn-reject" onclick="deleteReview('${r.id}')">✕ Delete</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateBadgeCounts() {
+      const all = getReviews();
+      const pending = all.filter(r => r.status === 'pending').length;
+      const approved = all.filter(r => r.status === 'approved').length;
+      document.getElementById('pendingCountBadge').textContent = `${pending} pending review(s) waiting`;
+      const tabP = document.getElementById('tabPendingCount');
+      const tabA = document.getElementById('tabApprovedCount');
+      if(tabP) tabP.textContent = pending;
+      if(tabA) tabA.textContent = approved;
+    }
+
+    function escapeHtml(str) {
+      if(!str) return '';
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    // ================= 4. GROW TOGETHER AI KNOWLEDGE BASE =================
+    const GT_KNOWLEDGE = {
+      about: `<strong>Grow Together Community</strong> is a welcoming space built for people who want to practice English, overcome hesitation, and speak with confidence without fear of judgment. Our motto is: <em>"Speak • Connect • Grow."</em>`,
+      founder: `<strong>Meet the Founding Team:</strong><br>
+• <strong>Komal Gupta</strong> — Co-Founder & Community Lead (Building Grow Together from an idea into a community to Speak • Connect • Grow).<br>
+• <strong>Krishna</strong> — Co-Founder & Community Engagement Lead (Connecting with members through 1:1 interviews and helping build the community from the beginning).<br>
+• <strong>Rahees</strong> — Website Developer (Building the digital home of Grow Together and bringing the community's vision online).<br>
+• <strong>Nuzhat</strong> — Community Outreach & Co-Host Lead (Driving outreach, content distribution, community connections, and co-hosting sessions).`,
+      sessions: `We organize <strong>daily live speaking sessions</strong> over Google Meet & WhatsApp voice rooms. Members participate in everyday discussions, personal storytelling, and impromptu speaking games to build natural fluency.`,
+      ebooks: `We have 2 practical, free E-Books:<br>
+1. <strong>Upgrade Your Vocabulary</strong> — 100+ everyday high-impact expressions.<br>
+2. <strong>30-Day Confidence Challenge</strong> — 30 daily actionable communication tasks.<br>
+You can download them for free on our <a href="ebook.html">E-Book Page</a>.`,
+      courses: `We provide free recorded masterclasses and speaking workshops! Once you watch a session, you can generate and download your personalized <strong>Certificate of Completion</strong> signed by Komal Gupta directly on our <a href="courses.html">Courses Page</a>.`,
+      certificates: `Yes! Every course recording includes an official <strong>Certificate of Completion</strong> featuring our verified Canva seal and signed by our Founder, Komal Gupta. Simply enter your name on the <a href="courses.html">Courses Page</a> after watching to claim yours!`,
+      reviews: `You can read authentic member reviews and voice notes directly in our <a href="#reviews">Reviews Section</a>, or check our <a href="wall-of-fame.html">Wall of Fame</a>! You can also submit your own review with an optional voice message.`,
+      contact: `You can reach out directly via:<br>
+📧 Email: <a href="mailto:growtogether1906@gmail.com">growtogether1906@gmail.com</a><br>
+📸 Instagram: <a href="https://www.instagram.com/growtogether_1906" target="_blank">@growtogether_1906</a><br>
+💬 WhatsApp Community: <a href="https://chat.whatsapp.com/FqmaGdi75EE4KRPke0odGj" target="_blank">Join Group</a><br>
+Or drop a note in our <a href="#contact">Contact Form</a>!`
+    };
+
+    // AI Window Toggle
+    const gtAiToggleBtn = document.getElementById('gtAiToggleBtn');
+    const gtAiCloseBtn = document.getElementById('gtAiCloseBtn');
+    const gtAiWindow = document.getElementById('gtAiWindow');
+    const gtAiMessages = document.getElementById('gtAiMessages');
+    const gtAiInput = document.getElementById('gtAiInput');
+
+    if (gtAiToggleBtn && gtAiWindow) {
+      gtAiToggleBtn.addEventListener('click', () => {
+        gtAiWindow.classList.toggle('open');
+        if (gtAiWindow.classList.contains('open')) {
+          gtAiInput.focus();
+        }
+      });
+
+      gtAiCloseBtn.addEventListener('click', () => {
+        gtAiWindow.classList.remove('open');
+      });
+    }
+
+    function askPreset(question) {
+      processUserQuery(question);
+    }
+
+    function handleAiSubmit(e) {
+      e.preventDefault();
+      const text = gtAiInput.value.trim();
+      if (!text) return;
+      gtAiInput.value = '';
+      processUserQuery(text);
+    }
+
+    function processUserQuery(query) {
+      appendMessage(query, 'user');
+
+      const typingIndicator = document.createElement('div');
+      typingIndicator.className = 'gt-msg bot typing';
+      typingIndicator.innerHTML = `<div class="gt-msg-bubble">Thinking... ✨</div>`;
+      gtAiMessages.appendChild(typingIndicator);
+      gtAiMessages.scrollTop = gtAiMessages.scrollHeight;
+
+      setTimeout(() => {
+        if (typingIndicator.parentNode) {
+          gtAiMessages.removeChild(typingIndicator);
+        }
+        const answer = generateAiAnswer(query);
+        appendMessage(answer, 'bot');
+      }, 420);
+    }
+
+    function appendMessage(htmlContent, sender) {
+      const msg = document.createElement('div');
+      msg.className = `gt-msg ${sender}`;
+      msg.innerHTML = `<div class="gt-msg-bubble">${htmlContent}</div>`;
+      gtAiMessages.appendChild(msg);
+      gtAiMessages.scrollTop = gtAiMessages.scrollHeight;
+    }
+
+    function generateAiAnswer(q) {
+      const query = q.toLowerCase();
+
+      if (query.includes('founder') || query.includes('founding team') || query.includes('who started') || query.includes('komal') || query.includes('krishna') || query.includes('rahees') || query.includes('nuzhat') || query.includes('team') || query.includes('lead')) {
+        return GT_KNOWLEDGE.founder;
+      }
+      if (query.includes('session') || query.includes('meet') || query.includes('practice') || query.includes('daily') || query.includes('how to join') || query.includes('timing')) {
+        return GT_KNOWLEDGE.sessions;
+      }
+      if (query.includes('certificate') || query.includes('cert') || query.includes('completion')) {
+        return GT_KNOWLEDGE.certificates;
+      }
+      if (query.includes('book') || query.includes('ebook') || query.includes('vocabulary') || query.includes('challenge') || query.includes('pdf')) {
+        return GT_KNOWLEDGE.ebooks;
+      }
+      if (query.includes('course') || query.includes('recording') || query.includes('video') || query.includes('watch')) {
+        return GT_KNOWLEDGE.courses;
+      }
+      if (query.includes('review') || query.includes('feedback') || query.includes('wall of fame') || query.includes('fame')) {
+        return GT_KNOWLEDGE.reviews;
+      }
+      if (query.includes('contact') || query.includes('email') || query.includes('instagram') || query.includes('whatsapp') || query.includes('phone') || query.includes('link')) {
+        return GT_KNOWLEDGE.contact;
+      }
+      if (query.includes('what is') || query.includes('about') || query.includes('grow together') || query.includes('community') || query.includes('who are we')) {
+        return GT_KNOWLEDGE.about;
+      }
+      if (query.includes('hi') || query.includes('hello') || query.includes('hey')) {
+        return "Hi there! 👋 How can I help you learn or practice with Grow Together today? Ask me about our founding team, daily sessions, e-books, or courses!";
+      }
+
+      return `That's a wonderful question! Grow Together is an encouraging community where we practice English every day, access free e-books, watch recorded courses, and earn certificates. <br><br>You can ask me about:
+      <ul>
+        <li>Founding Team (Komal, Krishna, Rahees, Nuzhat)</li>
+        <li>Daily Live Sessions & WhatsApp Group</li>
+        <li>Recorded Courses & Certificates</li>
+        <li>Free Vocabulary & Confidence E-Books</li>
+      </ul>
+      Or feel free to email our team directly at <a href="mailto:growtogether1906@gmail.com">growtogether1906@gmail.com</a>.`;
+    }
+
+    // Initialize Page
+    setRating(5);
+    renderShowcase();
+    updateBadgeCounts();
+  </script>
+</body>
+</html>

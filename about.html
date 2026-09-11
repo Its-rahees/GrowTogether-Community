@@ -1,0 +1,618 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="About Grow Together Community — a welcoming community to practice English communication confidently, connect with people, and grow together." />
+  <title>About Us | Grow Together Community</title>
+  <style>
+    :root{
+      --deep-green:#1F5D50;
+      --sage-green:#8FAF9A;
+      --warm-cream:#F7F3E8;
+      --charcoal:#26332F;
+      --soft-gold:#D9B86C;
+      --bg:var(--warm-cream);
+      --surface:#fffdf8;
+      --ink:var(--charcoal);
+      --muted:#66736d;
+      --primary:var(--deep-green);
+      --primary-dark:#17493f;
+      --accent:var(--sage-green);
+      --line:#dfe5dc;
+      --shadow:0 18px 50px rgba(38,51,47,.12);
+      --radius:22px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+    a{text-decoration:none;color:inherit}
+    button{font:inherit}
+    .container{width:min(1160px,92%);margin:auto}
+
+    .nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      background:rgba(255,253,248,.94);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(31,93,80,.16)
+    }
+    .nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.4px;color:#26332F}
+    .logo{width:58px;height:58px;border-radius:12px;display:grid;place-items:center;overflow:hidden;flex:none}
+    .logo img{width:100%;height:100%;object-fit:contain;display:block}
+    .brand span{font-size:18px}
+    .brand small{display:block;color:#66736d;font-size:10px;font-weight:600;letter-spacing:1.1px;text-transform:uppercase;margin-top:-3px}
+    .nav-links{display:flex;align-items:center;gap:22px;color:#52615a;font-size:14px;font-weight:650}
+    .nav-links a{position:relative;padding:8px 0;white-space:nowrap}
+    .nav-links a:after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--soft-gold);transition:.25s}
+    .nav-links a:hover{color:var(--primary)}
+    .nav-links a:hover:after,.nav-links a.active:after{width:100%}
+    .join-btn{border:0;background:var(--primary);color:#F7F3E8;padding:11px 17px;border-radius:12px;font-weight:700;cursor:pointer;transition:.2s}
+    .join-btn:hover{transform:translateY(-2px);background:#17493f}
+    .menu{display:none;border:0;background:none;color:#1F5D50;font-size:27px;cursor:pointer}
+
+    .about-hero{padding:140px 0 85px;background:#F7F3E8}
+    .about-hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:70px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#eef0ff;color:#1F5D50;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.3px;margin-bottom:20px}
+    .about-hero h1{margin:16px 0 20px;max-width:850px;font-size:clamp(42px,6vw,72px);line-height:1.02;letter-spacing:-2.5px}
+    .about-hero p{max-width:720px;color:#566761;font-size:18px;line-height:1.8}
+    .gradient{color:#1F5D50}
+    .primary-btn{display:inline-flex;align-items:center;justify-content:center;margin-top:18px;padding:14px 23px;border-radius:999px;background:#1F5D50;color:#fff;text-decoration:none;font-weight:800;transition:.2s}
+    .primary-btn:hover{background:#17493f;transform:translateY(-2px)}
+    .about-hero-card{padding:38px;border-radius:28px;background:#1F5D50;color:#fff;box-shadow:0 20px 45px rgba(31,93,80,.18)}
+    .about-card-icon{width:52px;height:52px;display:grid;place-items:center;border-radius:16px;background:#D9B86C;color:#1F5D50;font-weight:900;margin-bottom:25px}
+    .about-hero-card h3{font-size:28px;margin:0 0 12px}
+    .about-hero-card p{color:#dce7e3;font-size:15px;margin:0;line-height:1.8}
+
+    .about-story{padding:100px 0;background:#fff}
+    .about-two-col{display:grid;grid-template-columns:1fr 1fr;gap:80px}
+    .section-label{color:#1F5D50;font-size:12px;font-weight:900;letter-spacing:3px;margin-bottom:14px}
+    .about-two-col h2,.section-head h2{margin:0;font-size:clamp(34px,4.5vw,55px);line-height:1.1;letter-spacing:-1.5px}
+    .about-two-col p{color:#5b6b65;line-height:1.85;font-size:16px;margin:0 0 18px}
+
+    .mission-vision,.free-sessions{padding:100px 0}
+    .mission-vision{background:#F7F3E8}
+    .section-head.center{text-align:center;max-width:760px;margin:0 auto 45px}
+    .section-head.center p{color:#62716b;line-height:1.75}
+    .mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+    .mv-card,.session-card{padding:38px;background:#fff;border:1px solid rgba(31,93,80,.10);border-radius:25px;box-shadow:0 12px 35px rgba(31,93,80,.07)}
+    .mv-number,.session-icon{color:#1F5D50;font-weight:900}
+    .mv-number{margin-bottom:20px}
+    .mv-card h3,.session-card h3{color:#1F5D50}
+    .mv-card p,.session-card p{color:#61716a;line-height:1.8}
+
+    .session-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:45px}
+    .session-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:#D9B86C;margin-bottom:22px}
+    .session-card{padding:30px 25px}
+    .session-card h3{font-size:20px;margin:0 0 12px}
+    .session-card p{font-size:14px;margin:0}
+    .free-note{display:flex;gap:16px;align-items:center;margin-top:35px;padding:20px 24px;border-radius:18px;background:#1F5D50;color:#fff}
+    .free-note strong{color:#D9B86C;white-space:nowrap}
+    .free-note span{color:#dce7e3}
+
+    .about-cta{padding:80px 0;background:#1F5D50}
+    .about-cta-inner{display:flex;align-items:center;justify-content:space-between;gap:45px}
+    .about-cta .section-label{color:#D9B86C}
+    .about-cta h2{color:#fff;font-size:clamp(32px,4vw,50px);margin:0 0 12px}
+    .about-cta p{color:#dce7e3}
+    .about-cta .primary-btn{background:#D9B86C;color:#1F5D50}
+
+    /* Footer */
+    .site-footer{background:#123d31;color:#d8dfda;padding:72px 0 25px}
+    .footer-wrap-three{width:min(1160px,86%);margin:0 auto;display:grid;grid-template-columns:1.05fr 1fr 1fr;gap:80px;align-items:start}
+    .footer-brand-link{display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff}
+    .footer-brand-logo{width:72px;height:72px;object-fit:contain;display:block;border-radius:15px;background:#F7F3E8;flex:none}
+    .footer-brand-name{display:flex;flex-direction:column;line-height:1.05}
+    .footer-brand-name strong{color:#fff;font-size:21px;font-weight:800;letter-spacing:-.4px}
+    .footer-brand-name small{margin-top:7px;color:#8fa9c9;font-size:13px;letter-spacing:1.2px;font-weight:700}
+    .footer-brand-description{display:block;margin:22px 0 0 0;width:100%;max-width:430px;color:#aebbb6;font-size:15px;line-height:1.9}
+    .footer-col{display:flex;flex-direction:column;align-items:flex-start}
+    .footer-col h4{color:#d9b86c;font-size:13px;letter-spacing:4px;margin:0 0 28px;font-weight:800}
+    .footer-col a,.channel-item{display:flex;align-items:center;gap:14px;color:#d2d9d5;font-size:17px;line-height:1.4;margin:0 0 20px;transition:.2s}
+    .footer-col a:hover{color:#fffdf8;transform:translateX(3px)}
+    .footer-icon{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;flex:none;color:#c9d2cd}
+    .footer-icon svg{width:21px;height:21px;display:block}
+    .footer-bottom{width:min(1160px,86%);margin:28px auto 0;padding-top:22px;border-top:1px solid rgba(216,223,218,.14);font-size:12px;color:#91a39a}
+
+    @media(max-width:950px){
+      .about-hero-grid,.about-two-col{grid-template-columns:1fr}
+      .session-grid{grid-template-columns:1fr 1fr}
+      .footer-wrap-three{grid-template-columns:1fr 1fr;gap:48px}
+      .footer-brand{grid-column:1/-1}
+    }
+    @media(max-width:680px){
+      .nav-inner{height:68px}
+      .nav-links{
+        display:none;
+        position:absolute;
+        top:68px;
+        left:4%;
+        right:4%;
+        background:white;
+        border:1px solid var(--line);
+        border-radius:16px;
+        padding:16px;
+        box-shadow:var(--shadow);
+        flex-direction:column;
+        gap:5px;
+        align-items:stretch;
+      }
+      .nav-links.open{display:flex}
+      .nav-links a{padding:11px}
+      .join-btn{display:none}
+      .menu{display:block}
+      .about-hero{padding-top:115px}
+      .mv-grid,.session-grid{grid-template-columns:1fr}
+      .free-note,.about-cta-inner{flex-direction:column;align-items:flex-start}
+      .footer-wrap-three{grid-template-columns:1fr;gap:35px}
+      .footer-brand{grid-column:auto}
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html" aria-label="Grow Together Community home">
+        <div class="logo"><img src="logo.jpeg" alt="Grow Together Community logo"></div>
+        <div>Grow Together<small>Community</small></div>
+      </a>
+      <button class="menu" id="menuToggleBtn" aria-label="Open menu">☰</button>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="about.html" class="active">About Us</a>
+        <a href="wall-of-fame.html">Wall of Fame</a>
+        <a href="ebook.html">E-Book</a>
+        <a href="courses.html">Courses</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <a class="join-btn" href="contact.html">Join Community</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="about-hero">
+      <div class="container about-hero-grid">
+        <div>
+          <div class="eyebrow">✦ ABOUT GROW TOGETHER</div>
+          <h1>We believe <span class="gradient">confidence grows</span> when people grow together.</h1>
+          <p>Grow Together Community is a welcoming space where people can practice communication, build confidence, meet new people, and keep improving through real conversations.</p>
+          <a class="primary-btn" href="contact.html">Join the Community →</a>
+        </div>
+        <div class="about-hero-card">
+          <div class="about-card-icon">✦</div>
+          <h3>Speak. Connect. Grow.</h3>
+          <p>A simple idea with a meaningful purpose: create a place where everyone feels comfortable speaking, learning, asking questions, and becoming better together.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-story">
+      <div class="container about-two-col">
+        <div>
+          <div class="section-label">OUR STORY</div>
+          <h2>Started with a simple belief: <span class="gradient">you don't have to grow alone.</span></h2>
+        </div>
+        <div>
+          <p>Grow Together was created to make communication practice more accessible, friendly, and practical. Many people know what they want to say but hesitate because they are afraid of making mistakes or being judged.</p>
+          <p>Our community focuses on practice. Through friendly conversations, free sessions, shared experiences, and a supportive community, members get opportunities to speak, listen, learn, and build confidence step by step.</p>
+          <p>We are building a community where progress is celebrated, mistakes are part of learning, and every conversation can become a small step forward.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mission-vision">
+      <div class="container">
+        <div class="section-head center">
+          <div class="section-label">WHAT DRIVES US</div>
+          <h2>Our mission and <span class="gradient">vision.</span></h2>
+          <p>Creating a supportive environment where people can learn, practice, connect, and grow.</p>
+        </div>
+        <div class="mv-grid">
+          <article class="mv-card">
+            <div class="mv-number">01</div>
+            <h3>Our Mission</h3>
+            <p>To provide accessible and practical opportunities for people to improve communication, develop confidence, and connect with others through meaningful conversations and community learning.</p>
+          </article>
+          <article class="mv-card">
+            <div class="mv-number">02</div>
+            <h3>Our Vision</h3>
+            <p>To build a growing community where people from different backgrounds feel confident expressing themselves, supporting one another, and continuously learning together.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="free-sessions">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-label">FREE SESSIONS</div>
+          <h2>Learn through <span class="gradient">real practice.</span></h2>
+          <p>Our free sessions are designed to be practical, friendly, and conversation-focused — so you can practice without pressure.</p>
+        </div>
+        <div class="session-grid">
+          <article class="session-card"><div class="session-icon">01</div><h3>English Speaking Practice</h3><p>Friendly group conversations to practice English, improve fluency, learn useful expressions, and become more comfortable communicating.</p></article>
+          <article class="session-card"><div class="session-icon">02</div><h3>Communication & Confidence</h3><p>Interactive activities and discussions focused on expressing ideas clearly, speaking with confidence, and reducing hesitation.</p></article>
+          <article class="session-card"><div class="session-icon">03</div><h3>Conversation Sessions</h3><p>Real-life topics, open discussions, Q&A activities, and peer conversations that help you practice naturally.</p></article>
+          <article class="session-card"><div class="session-icon">04</div><h3>Interview & Professional Practice</h3><p>Practice introductions, interview questions, workplace conversations, and professional communication in a supportive setting.</p></article>
+        </div>
+        <div class="free-note"><strong>100% Free Community Sessions</strong><span>No expensive courses. No pressure. Just a supportive place to practice, connect, and grow.</span></div>
+      </div>
+    </section>
+
+    <section class="about-cta">
+      <div class="container about-cta-inner">
+        <div><div class="section-label">GROW WITH US</div><h2>Your next conversation could be your next step forward.</h2><p>Join Grow Together and start practicing with people who are growing just like you.</p></div>
+        <a class="primary-btn" href="contact.html">Join Community →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-wrap-three">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-brand-link" aria-label="Grow Together Community">
+          <img class="footer-brand-logo" src="logo.jpeg" alt="Grow Together Community logo">
+          <span class="footer-brand-name">
+            <strong>Grow Together</strong>
+            <small>COMMUNITY</small>
+          </span>
+        </a>
+        <p class="footer-brand-description">A community where you practice communication, build confidence and grow through real conversations.</p>
+      </div>
+      <div class="footer-col">
+        <h4>EXPLORE</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="wall-of-fame.html">Wall of Fame</a>
+        <a href="ebook.html">E-Book</a>
+        <a href="courses.html">Courses</a>
+        <a href="contact.html">Join Us</a>
+      </div>
+      
+      <div class="footer-col connect-col">
+        <h4>CONNECT</h4>
+        <a href="https://www.instagram.com/growtogether_1906?igsh=ZWp0d24zdG41NnVt" target="_blank" rel="noopener noreferrer">
+          <span class="footer-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.7" r="1.1" fill="currentColor"/></svg></span>Instagram
+        </a>
+        <a href="https://chat.whatsapp.com/FqmaGdi75EE4KRPke0odGj" target="_blank" rel="noopener noreferrer">
+          <span class="footer-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.5a8.2 8.2 0 0 1-12.2 7.1L4 20l1.4-4.1A8.2 8.2 0 1 1 20.5 11.5Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 8.7c.2-.5.5-.6.9-.6h.5c.2 0 .4.1.5.4l.7 1.7c.1.3.1.5-.1.7l-.6.7c.6 1.1 1.5 2 2.6 2.6l.7-.6c.2-.2.4-.2.7-.1l1.7.7c.3.1.4.3.4.5v.5c0 .4-.1.7-.6.9-1 .4-2.3-.1-3.9-1.2-1.4-1-2.7-2.3-3.7-3.7-1.1-1.6-1.6-2.9-1.2-3.9Z" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></span>WhatsApp Community
+        </a>
+        <a href="https://whatsapp.com/channel/0029VbCaKzWK0IBhBsmbAN11" target="_blank" rel="noopener noreferrer">
+          <span class="footer-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M7.8 8.2a5.4 5.4 0 0 0 0 7.6M16.2 8.2a5.4 5.4 0 0 1 0 7.6M5 5.5a9.3 9.3 0 0 0 0 13M19 5.5a9.3 9.3 0 0 1 0 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>WhatsApp Channel
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Grow Together Community · Speak. Connect. Grow.</div>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById('menuToggleBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navLinks.classList.toggle('open');
+    });
+
+    document.querySelectorAll('#navLinks a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!navLinks.contains(e.target) && e.target !== menuBtn) {
+        navLinks.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="About Grow Together Community — a welcoming community to practice English communication confidently, connect with people, and grow together." />
+  <title>About Us | Grow Together Community</title>
+  <style>
+    :root{
+      --deep-green:#1F5D50;
+      --sage-green:#8FAF9A;
+      --warm-cream:#F7F3E8;
+      --charcoal:#26332F;
+      --soft-gold:#D9B86C;
+      --bg:var(--warm-cream);
+      --surface:#fffdf8;
+      --ink:var(--charcoal);
+      --muted:#66736d;
+      --primary:var(--deep-green);
+      --primary-dark:#17493f;
+      --accent:var(--sage-green);
+      --line:#dfe5dc;
+      --shadow:0 18px 50px rgba(38,51,47,.12);
+      --radius:22px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+    a{text-decoration:none;color:inherit}
+    button{font:inherit}
+    .container{width:min(1160px,92%);margin:auto}
+
+    .nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      background:rgba(255,253,248,.94);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(31,93,80,.16)
+    }
+    .nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.4px;color:#26332F}
+    .logo{width:58px;height:58px;border-radius:12px;display:grid;place-items:center;overflow:hidden;flex:none}
+    .logo img{width:100%;height:100%;object-fit:contain;display:block}
+    .brand span{font-size:18px}
+    .brand small{display:block;color:#66736d;font-size:10px;font-weight:600;letter-spacing:1.1px;text-transform:uppercase;margin-top:-3px}
+    .nav-links{display:flex;align-items:center;gap:22px;color:#52615a;font-size:14px;font-weight:650}
+    .nav-links a{position:relative;padding:8px 0;white-space:nowrap}
+    .nav-links a:after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--soft-gold);transition:.25s}
+    .nav-links a:hover{color:var(--primary)}
+    .nav-links a:hover:after,.nav-links a.active:after{width:100%}
+    .join-btn{border:0;background:var(--primary);color:#F7F3E8;padding:11px 17px;border-radius:12px;font-weight:700;cursor:pointer;transition:.2s}
+    .join-btn:hover{transform:translateY(-2px);background:#17493f}
+    .menu{display:none;border:0;background:none;color:#1F5D50;font-size:27px;cursor:pointer}
+
+    .about-hero{padding:140px 0 85px;background:#F7F3E8}
+    .about-hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:70px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#eef0ff;color:#1F5D50;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.3px;margin-bottom:20px}
+    .about-hero h1{margin:16px 0 20px;max-width:850px;font-size:clamp(42px,6vw,72px);line-height:1.02;letter-spacing:-2.5px}
+    .about-hero p{max-width:720px;color:#566761;font-size:18px;line-height:1.8}
+    .gradient{color:#1F5D50}
+    .primary-btn{display:inline-flex;align-items:center;justify-content:center;margin-top:18px;padding:14px 23px;border-radius:999px;background:#1F5D50;color:#fff;text-decoration:none;font-weight:800;transition:.2s}
+    .primary-btn:hover{background:#17493f;transform:translateY(-2px)}
+    .about-hero-card{padding:38px;border-radius:28px;background:#1F5D50;color:#fff;box-shadow:0 20px 45px rgba(31,93,80,.18)}
+    .about-card-icon{width:52px;height:52px;display:grid;place-items:center;border-radius:16px;background:#D9B86C;color:#1F5D50;font-weight:900;margin-bottom:25px}
+    .about-hero-card h3{font-size:28px;margin:0 0 12px}
+    .about-hero-card p{color:#dce7e3;font-size:15px;margin:0;line-height:1.8}
+
+    .about-story{padding:100px 0;background:#fff}
+    .about-two-col{display:grid;grid-template-columns:1fr 1fr;gap:80px}
+    .section-label{color:#1F5D50;font-size:12px;font-weight:900;letter-spacing:3px;margin-bottom:14px}
+    .about-two-col h2,.section-head h2{margin:0;font-size:clamp(34px,4.5vw,55px);line-height:1.1;letter-spacing:-1.5px}
+    .about-two-col p{color:#5b6b65;line-height:1.85;font-size:16px;margin:0 0 18px}
+
+    .mission-vision,.free-sessions{padding:100px 0}
+    .mission-vision{background:#F7F3E8}
+    .section-head.center{text-align:center;max-width:760px;margin:0 auto 45px}
+    .section-head.center p{color:#62716b;line-height:1.75}
+    .mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+    .mv-card,.session-card{padding:38px;background:#fff;border:1px solid rgba(31,93,80,.10);border-radius:25px;box-shadow:0 12px 35px rgba(31,93,80,.07)}
+    .mv-number,.session-icon{color:#1F5D50;font-weight:900}
+    .mv-number{margin-bottom:20px}
+    .mv-card h3,.session-card h3{color:#1F5D50}
+    .mv-card p,.session-card p{color:#61716a;line-height:1.8}
+
+    .session-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:45px}
+    .session-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:#D9B86C;margin-bottom:22px}
+    .session-card{padding:30px 25px}
+    .session-card h3{font-size:20px;margin:0 0 12px}
+    .session-card p{font-size:14px;margin:0}
+    .free-note{display:flex;gap:16px;align-items:center;margin-top:35px;padding:20px 24px;border-radius:18px;background:#1F5D50;color:#fff}
+    .free-note strong{color:#D9B86C;white-space:nowrap}
+    .free-note span{color:#dce7e3}
+
+    .about-cta{padding:80px 0;background:#1F5D50}
+    .about-cta-inner{display:flex;align-items:center;justify-content:space-between;gap:45px}
+    .about-cta .section-label{color:#D9B86C}
+    .about-cta h2{color:#fff;font-size:clamp(32px,4vw,50px);margin:0 0 12px}
+    .about-cta p{color:#dce7e3}
+    .about-cta .primary-btn{background:#D9B86C;color:#1F5D50}
+
+    /* Footer */
+    .site-footer{background:#123d31;color:#d8dfda;padding:72px 0 25px}
+    .footer-wrap-three{width:min(1160px,86%);margin:0 auto;display:grid;grid-template-columns:1.05fr 1fr 1fr;gap:80px;align-items:start}
+    .footer-brand-link{display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff}
+    .footer-brand-logo{width:72px;height:72px;object-fit:contain;display:block;border-radius:15px;background:#F7F3E8;flex:none}
+    .footer-brand-name{display:flex;flex-direction:column;line-height:1.05}
+    .footer-brand-name strong{color:#fff;font-size:21px;font-weight:800;letter-spacing:-.4px}
+    .footer-brand-name small{margin-top:7px;color:#8fa9c9;font-size:13px;letter-spacing:1.2px;font-weight:700}
+    .footer-brand-description{display:block;margin:22px 0 0 0;width:100%;max-width:430px;color:#aebbb6;font-size:15px;line-height:1.9}
+    .footer-col{display:flex;flex-direction:column;align-items:flex-start}
+    .footer-col h4{color:#d9b86c;font-size:13px;letter-spacing:4px;margin:0 0 28px;font-weight:800}
+    .footer-col a,.channel-item{display:flex;align-items:center;gap:14px;color:#d2d9d5;font-size:17px;line-height:1.4;margin:0 0 20px;transition:.2s}
+    .footer-col a:hover{color:#fffdf8;transform:translateX(3px)}
+    .footer-icon{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;flex:none;color:#c9d2cd}
+    .footer-icon svg{width:21px;height:21px;display:block}
+    .footer-bottom{width:min(1160px,86%);margin:28px auto 0;padding-top:22px;border-top:1px solid rgba(216,223,218,.14);font-size:12px;color:#91a39a}
+
+    @media(max-width:950px){
+      .about-hero-grid,.about-two-col{grid-template-columns:1fr}
+      .session-grid{grid-template-columns:1fr 1fr}
+      .footer-wrap-three{grid-template-columns:1fr 1fr;gap:48px}
+      .footer-brand{grid-column:1/-1}
+    }
+    @media(max-width:680px){
+      .nav-inner{height:68px}
+      .nav-links{
+        display:none;
+        position:absolute;
+        top:68px;
+        left:4%;
+        right:4%;
+        background:white;
+        border:1px solid var(--line);
+        border-radius:16px;
+        padding:16px;
+        box-shadow:var(--shadow);
+        flex-direction:column;
+        gap:5px;
+        align-items:stretch;
+      }
+      .nav-links.open{display:flex}
+      .nav-links a{padding:11px}
+      .join-btn{display:none}
+      .menu{display:block}
+      .about-hero{padding-top:115px}
+      .mv-grid,.session-grid{grid-template-columns:1fr}
+      .free-note,.about-cta-inner{flex-direction:column;align-items:flex-start}
+      .footer-wrap-three{grid-template-columns:1fr;gap:35px}
+      .footer-brand{grid-column:auto}
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html" aria-label="Grow Together Community home">
+        <div class="logo"><img src="logo.jpeg" alt="Grow Together Community logo"></div>
+        <div>Grow Together<small>Community</small></div>
+      </a>
+      <button class="menu" id="menuToggleBtn" aria-label="Open menu">☰</button>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="about.html" class="active">About Us</a>
+        <a href="wall-of-fame.html">Wall of Fame</a>
+        <a href="ebook.html">E-Book</a>
+        <a href="courses.html">Courses</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <a class="join-btn" href="contact.html">Join Community</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="about-hero">
+      <div class="container about-hero-grid">
+        <div>
+          <div class="eyebrow">✦ ABOUT GROW TOGETHER</div>
+          <h1>We believe <span class="gradient">confidence grows</span> when people grow together.</h1>
+          <p>Grow Together Community is a welcoming space where people can practice communication, build confidence, meet new people, and keep improving through real conversations.</p>
+          <a class="primary-btn" href="contact.html">Join the Community →</a>
+        </div>
+        <div class="about-hero-card">
+          <div class="about-card-icon">✦</div>
+          <h3>Speak. Connect. Grow.</h3>
+          <p>A simple idea with a meaningful purpose: create a place where everyone feels comfortable speaking, learning, asking questions, and becoming better together.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-story">
+      <div class="container about-two-col">
+        <div>
+          <div class="section-label">OUR STORY</div>
+          <h2>Started with a simple belief: <span class="gradient">you don't have to grow alone.</span></h2>
+        </div>
+        <div>
+          <p>Grow Together was created to make communication practice more accessible, friendly, and practical. Many people know what they want to say but hesitate because they are afraid of making mistakes or being judged.</p>
+          <p>Our community focuses on practice. Through friendly conversations, free sessions, shared experiences, and a supportive community, members get opportunities to speak, listen, learn, and build confidence step by step.</p>
+          <p>We are building a community where progress is celebrated, mistakes are part of learning, and every conversation can become a small step forward.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mission-vision">
+      <div class="container">
+        <div class="section-head center">
+          <div class="section-label">WHAT DRIVES US</div>
+          <h2>Our mission and <span class="gradient">vision.</span></h2>
+          <p>Creating a supportive environment where people can learn, practice, connect, and grow.</p>
+        </div>
+        <div class="mv-grid">
+          <article class="mv-card">
+            <div class="mv-number">01</div>
+            <h3>Our Mission</h3>
+            <p>To provide accessible and practical opportunities for people to improve communication, develop confidence, and connect with others through meaningful conversations and community learning.</p>
+          </article>
+          <article class="mv-card">
+            <div class="mv-number">02</div>
+            <h3>Our Vision</h3>
+            <p>To build a growing community where people from different backgrounds feel confident expressing themselves, supporting one another, and continuously learning together.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="free-sessions">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-label">FREE SESSIONS</div>
+          <h2>Learn through <span class="gradient">real practice.</span></h2>
+          <p>Our free sessions are designed to be practical, friendly, and conversation-focused — so you can practice without pressure.</p>
+        </div>
+        <div class="session-grid">
+          <article class="session-card"><div class="session-icon">01</div><h3>English Speaking Practice</h3><p>Friendly group conversations to practice English, improve fluency, learn useful expressions, and become more comfortable communicating.</p></article>
+          <article class="session-card"><div class="session-icon">02</div><h3>Communication & Confidence</h3><p>Interactive activities and discussions focused on expressing ideas clearly, speaking with confidence, and reducing hesitation.</p></article>
+          <article class="session-card"><div class="session-icon">03</div><h3>Conversation Sessions</h3><p>Real-life topics, open discussions, Q&A activities, and peer conversations that help you practice naturally.</p></article>
+          <article class="session-card"><div class="session-icon">04</div><h3>Interview & Professional Practice</h3><p>Practice introductions, interview questions, workplace conversations, and professional communication in a supportive setting.</p></article>
+        </div>
+        <div class="free-note"><strong>100% Free Community Sessions</strong><span>No expensive courses. No pressure. Just a supportive place to practice, connect, and grow.</span></div>
+      </div>
+    </section>
+
+    <section class="about-cta">
+      <div class="container about-cta-inner">
+        <div><div class="section-label">GROW WITH US</div><h2>Your next conversation could be your next step forward.</h2><p>Join Grow Together and start practicing with people who are growing just like you.</p></div>
+        <a class="primary-btn" href="contact.html">Join Community →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-wrap-three">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-brand-link" aria-label="Grow Together Community">
+          <img class="footer-brand-logo" src="logo.jpeg" alt="Grow Together Community logo">
+          <span class="footer-brand-name">
+            <strong>Grow Together</strong>
+            <small>COMMUNITY</small>
+          </span>
+        </a>
+        <p class="footer-brand-description">A community where you practice communication, build confidence and grow through real conversations.</p>
+      </div>
+      <div class="footer-col">
+        <h4>EXPLORE</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="wall-of-fame.html">Wall of Fame</a>
+        <a href="ebook.html">E-Book</a>
+        <a href="courses.html">Courses</a>
+        <a href="contact.html">Join Us</a>
+      </div>
+      
+      <div class="footer-col connect-col">
+        <h4>CONNECT</h4>
+        <a href="https://www.instagram.com/growtogether_1906?igsh=ZWp0d24zdG41NnVt" target="_blank" rel="noopener noreferrer">
+          <span class="footer-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.7" r="1.1" fill="currentColor"/></svg></span>Instagram
+        </a>
+        <a href="https://chat.whatsapp.com/FqmaGdi75EE4KRPke0odGj" target="_blank" rel="noopener noreferrer">
+          <span class="footer-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.5a8.2 8.2 0 0 1-12.2 7.1L4 20l1.4-4.1A8.2 8.2 0 1 1 20.5 11.5Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 8.7c.2-.5.5-.6.9-.6h.5c.2 0 .4.1.5.4l.7 1.7c.1.3.1.5-.1.7l-.6.7c.6 1.1 1.5 2 2.6 2.6l.7-.6c.2-.2.4-.2.7-.1l1.7.7c.3.1.4.3.4.5v.5c0 .4-.1.7-.6.9-1 .4-2.3-.1-3.9-1.2-1.4-1-2.7-2.3-3.7-3.7-1.1-1.6-1.6-2.9-1.2-3.9Z" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></span>WhatsApp Community
+        </a>
+        <a href="https://whatsapp.com/channel/0029VbCaKzWK0IBhBsmbAN11" target="_blank" rel="noopener noreferrer">
+          <span class="footer-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M7.8 8.2a5.4 5.4 0 0 0 0 7.6M16.2 8.2a5.4 5.4 0 0 1 0 7.6M5 5.5a9.3 9.3 0 0 0 0 13M19 5.5a9.3 9.3 0 0 1 0 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>WhatsApp Channel
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Grow Together Community · Speak. Connect. Grow.</div>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById('menuToggleBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navLinks.classList.toggle('open');
+    });
+
+    document.querySelectorAll('#navLinks a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!navLinks.contains(e.target) && e.target !== menuBtn) {
+        navLinks.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+>>>>>>> ffed664 (Initial commit for Grow Together website)
+</html>
