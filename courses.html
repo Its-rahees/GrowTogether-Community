@@ -165,6 +165,7 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
   z-index:1;
 }
 
+/* 1. STUDENT NAME */
 .cert-render-box .cert-name-overlay{
   position:absolute;
   top:48.5%;
@@ -183,6 +184,7 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
   white-space:nowrap;
 }
 
+/* 2. DEDICATED UNDERLINE ACCENT */
 .cert-render-box .cert-name-underline{
   position:absolute;
   top:55.5%;
@@ -194,6 +196,7 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
   z-index:3;
 }
 
+/* 3. 'FOR' TAG */
 .cert-render-box .cert-for-label{
   position:absolute;
   top:58.8%;
@@ -209,6 +212,7 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
   text-transform:uppercase;
 }
 
+/* 4. COURSE TITLE */
 .cert-render-box .cert-course-overlay{
   position:absolute;
   top:61.8%;
@@ -225,6 +229,7 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
   line-height:1.2;
 }
 
+/* 5. SHORT DESCRIPTION */
 .cert-render-box .cert-desc-overlay{
   position:absolute;
   top:66.8%;
@@ -241,6 +246,7 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
   line-height:1.45;
 }
 
+/* 6. DATE */
 .cert-render-box .cert-date-overlay{
   position:absolute;
   bottom:9.6%;
@@ -555,30 +561,6 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
     let liveCourses = [];
     let activeCourseForCert = null;
 
-    // Seed courses if collection is completely fresh
-    const defaultStarterCourses = [
-      {
-        id: "starter-course-1",
-        title: "Overcoming Speaking Fear & Impromptu Fluency",
-        instructor: "Komal Gupta · Founder and Host",
-        duration: "40 Mins",
-        tag: "Featured",
-        thumb: "",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-        description: "Learn practical mental frameworks to stop overthinking grammar, manage nervous pauses, and express your thoughts clearly in any meeting."
-      },
-      {
-        id: "starter-course-2",
-        title: "Daily Professional Vocabulary & Tone Control",
-        instructor: "Komal Gupta · Founder and Host",
-        duration: "35 Mins",
-        tag: "Featured",
-        thumb: "",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-        description: "A step-by-step breakdown on replacing casual filler phrases with crisp, executive-level communication templates for daily work discussions."
-      }
-    ];
-
     // Helper: Convert URLs to standard Embed Link
     function formatVideoEmbed(url) {
       if (!url) return '';
@@ -613,17 +595,25 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
       renderAdminManageList();
     }, (err) => {
       console.warn("Firestore Courses listener error:", err);
-      // Fallback to starter courses if database is offline
-      liveCourses = defaultStarterCourses;
+      liveCourses = [];
       renderCourses();
     });
 
     // 2. RENDER COURSES TO GRID
     function renderCourses() {
       const grid = document.getElementById('coursesGrid');
-      const coursesToDisplay = liveCourses.length > 0 ? liveCourses : defaultStarterCourses;
 
-      grid.innerHTML = coursesToDisplay.map(c => `
+      if (liveCourses.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column:1/-1;text-align:center;padding:50px 20px;background:#fff;border:1px dashed var(--line);border-radius:18px">
+            <h3 style="font-size:18px;color:var(--charcoal);margin-bottom:6px">No recorded courses uploaded yet.</h3>
+            <p style="color:var(--muted);font-size:13.5px">Sessions uploaded by mentors through the Instructor Portal will appear here automatically.</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = liveCourses.map(c => `
         <article class="course-card">
           <div>
             <div class="course-thumb-box">
@@ -649,8 +639,7 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
 
     // 3. WATCH MODAL
     window.openWatchModal = function(courseId) {
-      const coursesToSearch = liveCourses.length > 0 ? liveCourses : defaultStarterCourses;
-      const course = coursesToSearch.find(c => c.id === courseId);
+      const course = liveCourses.find(c => c.id === courseId);
       if (!course) return;
 
       activeCourseForCert = course;
@@ -791,7 +780,7 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
       document.getElementById('certStudentName').textContent = name;
       document.getElementById('certCourseTitle').textContent = (activeCourseForCert && activeCourseForCert.title) 
         ? activeCourseForCert.title.toUpperCase() 
-        : 'OVERCOMING SPEAKING FEAR & IMPROMPTU FLUENCY';
+        : 'COMMUNICATION & FLUENCY MASTERCLASS';
       
       const todayStr = new Date().toLocaleDateString('en-GB', { 
         day: 'numeric', 
