@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Moderation Portal | Grow Together Community</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --deep-green: #1F5D50;
+      --deep-green-dark: #17493f;
+      --sage-green: #8FAF9A;
+      --warm-cream: #F7F3E8;
+      --charcoal: #26332F;
+      --soft-gold: #D9B86C;
+      --surface: #fffdf8;
+      --card-bg: #ffffff;
+      --line: #dfe5dc;
+      --muted: #66736d;
+      --danger: #d9534f;
+      --danger-dark: #c9302c;
+      --success: #1F5D50;
+      --shadow: 0 16px 40px rgba(38, 51, 47, 0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--warm-cream);
+      color: var(--charcoal);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation Bar */
+    .admin-nav {
+      background: rgba(255, 253, 248, 0.95);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(31, 93, 80, 0.16);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .admin-nav-inner {
+      width: min(1160px, 92%);
+      margin: 0 auto;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--charcoal);
+    }
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .brand-title {
+      font-weight: 800;
+      font-size: 17px;
+      letter-spacing: -0.3px;
+    }
+    .brand-badge {
+      display: inline-block;
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 1px;
+      background: #e5eee8;
+      color: var(--deep-green);
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-left: 8px;
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .btn-view-site {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--deep-green);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #fff;
+      transition: 0.2s;
+    }
+    .btn-view-site:hover {
+      background: #e5eee8;
+    }
+    .btn-logout {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--charcoal);
+      border: 0;
+      padding: 8px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-logout:hover {
+      background: #000;
+    }
+
+    /* Main Container */
+    .dashboard-container {
+      width: min(1160px, 92%);
+      margin: 36px auto;
+      flex: 1;
+    }
+
+    /* Stats Overview Grid */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(38, 51, 47, 0.04);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .stat-card small {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+    }
+    .stat-card strong {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--charcoal);
+      margin-top: 6px;
+      line-height: 1;
+    }
+    .stat-card.pending-card strong {
+      color: #b45309;
+    }
+    .stat-card.approved-card strong {
+      color: var(--deep-green);
+    }
+
+    /* Tab Filter Bar */
+    .controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px 18px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 15px rgba(38, 51, 47, 0.03);
+    }
+    .tabs-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: transparent;
+      border: 0;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--deep-green);
+      color: #fff;
+    }
+    .tab-counter {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 11px;
+      margin-left: 6px;
+      background: rgba(0,0,0,0.08);
+    }
+    .tab-btn.active .tab-counter {
+      background: rgba(255,255,255,0.25);
+      color: #fff;
+    }
+
+    /* Review Items List */
+    .review-list {
+      display: grid;
+      gap: 16px;
+    }
+    .review-item {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      transition: 0.2s;
+      position: relative;
+    }
+    .review-item:hover {
+      border-color: var(--sage-green);
+      transform: translateY(-2px);
+    }
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      gap: 12px;
+    }
+    .user-profile {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .user-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--deep-green), #2c7e6d);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .user-details h4 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--charcoal);
+    }
+    .user-details p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+    .stars-indicator {
+      color: var(--soft-gold);
+      font-size: 14px;
+      letter-spacing: 2px;
+      margin-top: 3px;
+    }
+    .status-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-pending {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+    .badge-approved {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .review-body {
+      background: #faf8f3;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 14px;
+      color: #334155;
+      margin: 14px 0;
+      border-left: 3px solid var(--deep-green);
+      line-height: 1.6;
+    }
+
+    .voice-box {
+      background: #eef5f1;
+      border: 1px solid #c8ded1;
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin: 14px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .voice-box audio {
+      height: 34px;
+      flex: 1;
+      outline: none;
+    }
+
+    .meta-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid #f1eee3;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .location-info {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .location-info a {
+      color: var(--deep-green);
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-action {
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 750;
+      cursor: pointer;
+      border: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.15s;
+    }
+    .btn-approve {
+      background: var(--deep-green);
+      color: #fff;
+    }
+    .btn-approve:hover {
+      background: var(--deep-green-dark);
+      transform: translateY(-1px);
+    }
+    .btn-unapprove {
+      background: #f59e0b;
+      color: #fff;
+    }
+    .btn-unapprove:hover {
+      background: #d97706;
+      transform: translateY(-1px);
+    }
+    .btn-delete {
+      background: #fee2e2;
+      color: var(--danger);
+      border: 1px solid #fca5a5;
+    }
+    .btn-delete:hover {
+      background: var(--danger);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* Course Upload Styling */
+    .course-form-card {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: var(--shadow);
+      margin-bottom: 28px;
+    }
+    .course-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-field.full {
+      grid-column: 1 / -1;
+    }
+    .form-field label {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--charcoal);
+    }
+    .form-field input, .form-field textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--line);
+      border-radius: 11px;
+      font-size: 13.5px;
+      outline: none;
+      background: #faf8f3;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .form-field input:focus, .form-field textarea:focus {
+      border-color: var(--deep-green);
+      background: #fff;
+    }
+
+    /* Auth Overlay Screen */
+    .auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--warm-cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 20px;
+    }
+    .auth-card {
+      background: #fff;
+      width: min(420px, 100%);
+      padding: 36px 30px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      box-shadow: 0 20px 50px rgba(38, 51, 47, 0.14);
+      text-align: center;
+    }
+    .auth-card .icon-box {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: #e5eee8;
+      color: var(--deep-green);
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+      margin: 0 auto 18px;
+    }
+    .auth-card h2 {
+      font-size: 22px;
+      letter-spacing: -0.5px;
+      color: var(--charcoal);
+      margin-bottom: 6px;
+    }
+    .auth-card p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+    .auth-input {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 12px;
+      border: 1.5px solid var(--line);
+      font-size: 15px;
+      text-align: center;
+      letter-spacing: 2px;
+      outline: none;
+      background: #faf8f3;
+      margin-bottom: 14px;
+    }
+    .auth-input:focus {
+      border-color: var(--deep-green);
+      background: #fff;
+    }
+    .auth-btn {
+      width: 100%;
+      padding: 13px;
+      border-radius: 12px;
+      background: var(--deep-green);
+      color: #fff;
+      font-weight: 800;
+      font-size: 14px;
+      border: 0;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .auth-btn:hover {
+      background: var(--deep-green-dark);
+    }
+    .auth-error {
+      color: var(--danger);
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* Empty state */
+    .empty-state {
+      background: #fff;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      padding: 50px 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    @media (max-width: 850px) {
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .controls-bar { flex-direction: column; gap: 14px; align-items: stretch; }
+      .tabs-group { overflow-x: auto; }
+      .course-form-grid { grid-template-columns: 1fr; }
+      .review-header { flex-direction: column; }
+      .meta-footer { flex-direction: column; align-items: flex-start; }
+      .action-buttons { width: 100%; justify-content: flex-end; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ADMIN PASSCODE LOCK -->
+  <div id="authOverlay" class="auth-overlay">
+    <div class="auth-card">
+      <div class="icon-box">🔒</div>
+      <h2>Moderation Portal</h2>
+      <p>Enter your community admin key to review feedback and manage recorded sessions.</p>
+      <form id="authForm" onsubmit="handleAuth(event)">
+        <input type="password" id="adminPassword" class="auth-input" placeholder="Enter password" autofocus required autocomplete="off" />
+        <button type="submit" class="auth-btn">Access Dashboard →</button>
+        <div id="authError" class="auth-error">Incorrect password. Please try again.</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN NAVIGATION -->
+  <header class="admin-nav">
+    <div class="admin-nav-inner">
+      <div class="brand-group">
+        <div class="brand-logo">
+          <img src="logo.jpeg" alt="Grow Together Logo">
+        </div>
+        <div class="brand-title">
+          Grow Together
+          <span class="brand-badge">Moderator</span>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <a href="index.html" class="btn-view-site" target="_blank">View Live Website ↗</a>
+        <button class="btn-logout" onclick="logoutAdmin()">Lock Session</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- DASHBOARD BODY -->
+  <main class="dashboard-container">
+    <!-- METRICS -->
+    <section class="stats-row">
+      <div class="stat-card pending-card">
+        <small>Pending Approval</small>
+        <strong id="statPendingCount">0</strong>
+      </div>
+      <div class="stat-card approved-card">
+        <small>Live Reviews</small>
+        <strong id="statApprovedCount">0</strong>
+      </div>
+      <div class="stat-card">
+        <small>Uploaded Courses</small>
+        <strong id="statCoursesCount">0</strong>
+      </div>
+      <div class="stat-card">
+        <small>Reviews with Location</small>
+        <strong id="statWithLocation">0</strong>
+      </div>
+    </section>
+
+    <!-- CONTROLS & TABS -->
+    <div class="controls-bar">
+      <div class="tabs-group">
+        <button class="tab-btn active" id="tabBtnPending" onclick="switchTab('pending')">
+          Pending Reviews <span class="tab-counter" id="tabPendingBadge">0</span>
+        </button>
+        <button class="tab-btn" id="tabBtnApproved" onclick="switchTab('approved')">
+          Approved Reviews <span class="tab-counter" id="tabApprovedBadge">0</span>
+        </button>
+        <button class="tab-btn" id="tabBtnAll" onclick="switchTab('all')">
+          All Reviews <span class="tab-counter" id="tabAllBadge">0</span>
+        </button>
+        <button class="tab-btn" id="tabBtnCourses" onclick="switchTab('courses')">
+          Course Recordings 📹 <span class="tab-counter" id="tabCoursesBadge">0</span>
+        </button>
+      </div>
+      <div style="font-size:12px;color:var(--muted);font-weight:600;">
+        ⚡ Real-time Sync Active
+      </div>
+    </div>
+
+    <!-- REVIEWS QUEUE -->
+    <section class="review-list" id="reviewQueue">
+      <div class="empty-state">Connecting to database...</div>
+    </section>
+
+    <!-- COURSE RECORDING UPLOAD SECTION -->
+    <section id="courseUploadSection" style="display:none;">
+      <div class="course-form-card">
+        <div style="margin-bottom:18px;">
+          <h3 style="color:var(--deep-green); font-size:20px;">Upload Recorded Session / Masterclass</h3>
+          <p style="font-size:13px; color:var(--muted);">Add your YouTube link, Vimeo URL, Google Drive preview link, or MP4 video URL so all members can access it on <code>courses.html</code>.</p>
+        </div>
+
+        <form id="addCourseForm">
+          <div class="course-form-grid">
+            <div class="form-field full">
+              <label for="courseTitle">Course / Session Title *</label>
+              <input type="text" id="courseTitle" required placeholder="e.g. Masterclass: Overcoming English Speaking Hesitation" />
+            </div>
+
+            <div class="form-field">
+              <label for="courseMentor">Mentor / Host Name *</label>
+              <input type="text" id="courseMentor" required placeholder="e.g. Komal Gupta" />
+            </div>
+
+            <div class="form-field">
+              <label for="courseDuration">Duration / Category *</label>
+              <input type="text" id="courseDuration" required placeholder="e.g. 45 Mins · Interactive Workshop" />
+            </div>
+
+            <div class="form-field full">
+              <label for="courseVideoUrl">Video URL (YouTube link, Google Drive embed, or MP4) *</label>
+              <input type="url" id="courseVideoUrl" required placeholder="e.g. https://www.youtube.com/watch?v=... or https://youtu.be/..." />
+            </div>
+
+            <div class="form-field full">
+              <label for="courseDesc">Session Description *</label>
+              <textarea id="courseDesc" rows="3" required placeholder="Key takeaways and summary of what was covered during this speaking practice session..."></textarea>
+            </div>
+
+            <div class="form-field full" style="margin-top:8px;">
+              <button type="submit" id="saveCourseBtn" class="btn-action btn-approve" style="padding:12px 24px; font-size:14px; width:fit-content;">
+                Publish Recording to Courses Page →
+              </button>
+              <span id="courseUploadSuccess" style="color:var(--deep-green); font-weight:700; font-size:12.5px; margin-left:14px; display:none;">
+                🎉 Successfully published! This session is now live on courses.html!
+              </span>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <h3 style="font-size:18px; color:var(--charcoal); margin:24px 0 14px;">Active Published Course Recordings</h3>
+      <div id="adminCourseList" style="display:grid; gap:14px;">
+        <div class="empty-state">Loading published courses...</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- AUTHENTICATION SCRIPT (NON-MODULE SO IT WORKS INSTANTLY) -->
+  <script>
+    function handleAuth(e) {
+      e.preventDefault();
+      const pwd = document.getElementById('adminPassword').value.trim();
+      if (pwd === 'admin') {
+        sessionStorage.setItem('gt_admin_logged', 'true');
+        document.getElementById('authOverlay').style.display = 'none';
+        document.getElementById('authError').style.display = 'none';
+      } else {
+        document.getElementById('authError').style.display = 'block';
+      }
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem('gt_admin_logged');
+      window.location.reload();
+    }
+
+    if (sessionStorage.getItem('gt_admin_logged') === 'true') {
+      document.getElementById('authOverlay').style.display = 'none';
+    }
+  </script>
+
+  <!-- FIREBASE BACKEND INTEGRATION (CDN MODULE) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, 
+      onSnapshot, query, orderBy, serverTimestamp 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBlJVXCjLK4gxFxUdb861wOiWv9n6QuOJ8",
+      authDomain: "grow-together-8e773.firebaseapp.com",
+      projectId: "grow-together-8e773",
+      storageBucket: "grow-together-8e773.firebasestorage.app",
+      messagingSenderId: "410522833183",
+      appId: "1:410522833183:web:b557bf9832246c4586202a",
+      measurementId: "G-L3NT5JLE0V"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const reviewsCol = collection(db, "reviews");
+    const coursesCol = collection(db, "courses");
+
+    let reviewsData = [];
+    let coursesData = [];
+    let currentTab = 'pending';
+
+    // 1. REAL-TIME LISTENER FOR ALL REVIEWS
+    const qReviews = query(reviewsCol, orderBy("createdAt", "desc"));
+    onSnapshot(qReviews, (snapshot) => {
+      reviewsData = [];
+      snapshot.forEach((snap) => {
+        reviewsData.push({ id: snap.id, ...snap.data() });
+      });
+      updateStats();
+      if (currentTab !== 'courses') renderReviews();
+    }, (err) => {
+      console.error("Firebase Reviews Listener Error:", err);
+      document.getElementById('reviewQueue').innerHTML = `<div class="empty-state">Error connecting to Firebase: ${err.message}</div>`;
+    });
+
+    // 2. REAL-TIME LISTENER FOR ALL COURSES
+    const qCourses = query(coursesCol, orderBy("createdAt", "desc"));
+    onSnapshot(qCourses, (snapshot) => {
+      coursesData = [];
+      snapshot.forEach((snap) => {
+        coursesData.push({ id: snap.id, ...snap.data() });
+      });
+      updateStats();
+      renderCourses();
+    }, (err) => {
+      console.warn("Firebase Courses Listener (using client sort):", err.message);
+      // Fallback query without orderBy if index not ready
+      onSnapshot(query(coursesCol), (fallbackSnap) => {
+        coursesData = [];
+        fallbackSnap.forEach(s => coursesData.push({ id: s.id, ...s.data() }));
+        coursesData.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+        updateStats();
+        renderCourses();
+      });
+    });
+
+    // 3. STATS & BADGES
+    function updateStats() {
+      const pendingCount = reviewsData.filter(r => r.status === 'pending').length;
+      const approvedCount = reviewsData.filter(r => r.status === 'approved').length;
+      const locationCount = reviewsData.filter(r => r.location && r.location.lat).length;
+
+      document.getElementById('statPendingCount').textContent = pendingCount;
+      document.getElementById('statApprovedCount').textContent = approvedCount;
+      document.getElementById('statTotalCount').textContent = reviewsData.length;
+      document.getElementById('statWithLocation').textContent = locationCount;
+      document.getElementById('statCoursesCount').textContent = coursesData.length;
+
+      document.getElementById('tabPendingBadge').textContent = pendingCount;
+      document.getElementById('tabApprovedBadge').textContent = approvedCount;
+      document.getElementById('tabAllBadge').textContent = reviewsData.length;
+      document.getElementById('tabCoursesBadge').textContent = coursesData.length;
+    }
+
+    // 4. TAB SWITCHING
+    window.switchTab = function(tab) {
+      currentTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+      const reviewQueue = document.getElementById('reviewQueue');
+      const courseSection = document.getElementById('courseUploadSection');
+
+      if (tab === 'courses') {
+        document.getElementById('tabBtnCourses').classList.add('active');
+        reviewQueue.style.display = 'none';
+        courseSection.style.display = 'block';
+        renderCourses();
+      } else {
+        courseSection.style.display = 'none';
+        reviewQueue.style.display = 'grid';
+
+        if (tab === 'pending') document.getElementById('tabBtnPending').classList.add('active');
+        if (tab === 'approved') document.getElementById('tabBtnApproved').classList.add('active');
+        if (tab === 'all') document.getElementById('tabBtnAll').classList.add('active');
+        renderReviews();
+      }
+    };
+
+    // 5. RENDER REVIEWS IN QUEUE
+    function renderReviews() {
+      const queue = document.getElementById('reviewQueue');
+      let filtered = reviewsData;
+
+      if (currentTab === 'pending') filtered = reviewsData.filter(r => r.status === 'pending');
+      else if (currentTab === 'approved') filtered = reviewsData.filter(r => r.status === 'approved');
+
+      if (filtered.length === 0) {
+        queue.innerHTML = `
+          <div class="empty-state">
+            <h3 style="margin-bottom:6px;color:var(--charcoal)">All Clean!</h3>
+            <p>No ${currentTab} reviews found in the queue.</p>
+          </div>
+        `;
+        return;
+      }
+
+      queue.innerHTML = filtered.map(r => {
+        const initials = r.name ? r.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'GT';
+        const stars = '★'.repeat(r.rating || 5) + '☆'.repeat(5 - (r.rating || 5));
+        const isApproved = r.status === 'approved';
+
+        const locationBadge = r.location && r.location.lat
+          ? `<span class="location-info">📍 Coordinates: ${r.location.lat.toFixed(4)}, ${r.location.lng.toFixed(4)} (<a href="https://www.google.com/maps?q=${r.location.lat},${r.location.lng}" target="_blank">Open in Google Maps ↗</a>)</span>`
+          : `<span class="location-info">📍 Location: User did not grant access</span>`;
+
+        const voiceAudio = r.audioData ? `
+          <div class="voice-box">
+            <span style="font-size:12px;font-weight:700;color:var(--deep-green);white-space:nowrap">🎙️ Voice Note:</span>
+            <audio controls src="${r.audioData}"></audio>
+          </div>
+        ` : '';
+
+        return `
+          <article class="review-item">
+            <div class="review-header">
+              <div class="user-profile">
+                <div class="user-avatar">${initials}</div>
+                <div class="user-details">
+                  <h4>${escapeHtml(r.name)}</h4>
+                  <p>${escapeHtml(r.role || 'Visitor')} · ${r.displayDate || 'Recently'}</p>
+                  <div class="stars-indicator">${stars}</div>
+                </div>
+              </div>
+              <span class="status-badge ${isApproved ? 'badge-approved' : 'badge-pending'}">
+                ${r.status ? r.status.toUpperCase() : 'PENDING'}
+              </span>
+            </div>
+
+            <div class="review-body">
+              “${escapeHtml(r.text)}”
+            </div>
+
+            ${voiceAudio}
+
+            <div class="meta-footer">
+              ${locationBadge}
+              <div class="action-buttons">
+                ${!isApproved 
+                  ? `<button class="btn-action btn-approve" onclick="approveReview('${r.id}')">✓ Approve & Publish</button>`
+                  : `<button class="btn-action btn-unapprove" onclick="unapproveReview('${r.id}')">↩ Hide / Unpublish</button>`
+                }
+                <button class="btn-action btn-delete" onclick="deleteReview('${r.id}')">✕ Delete</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // 6. RENDER UPLOADED COURSES
+    function renderCourses() {
+      const courseList = document.getElementById('adminCourseList');
+      if (!courseList) return;
+
+      if (coursesData.length === 0) {
+        courseList.innerHTML = `<div class="empty-state">No courses uploaded yet. Fill the form above to publish your first video!</div>`;
+        return;
+      }
+
+      courseList.innerHTML = coursesData.map(c => `
+        <div style="display:flex; justify-content:space-between; align-items:center; background:#fff; padding:16px 20px; border-radius:14px; border:1px solid var(--line); box-shadow:0 4px 15px rgba(38,51,47,0.04);">
+          <div style="flex:1; padding-right:20px;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
+              <strong style="font-size:15px; color:var(--charcoal);">${escapeHtml(c.title)}</strong>
+              <span style="font-size:10.5px; font-weight:800; background:#e5eee8; color:var(--deep-green); padding:2px 8px; border-radius:6px;">${escapeHtml(c.duration)}</span>
+            </div>
+            <p style="font-size:12.5px; color:var(--muted); margin-bottom:6px;">${escapeHtml(c.description)}</p>
+            <div style="font-size:11.5px; color:var(--deep-green); font-weight:700;">
+              Host: ${escapeHtml(c.mentor)} · ${c.dateStr || ''} · <a href="${c.videoUrl}" target="_blank" style="text-decoration:underline; color:#2563eb;">Preview Video Link ↗</a>
+            </div>
+          </div>
+          <button class="btn-action btn-delete" onclick="deleteCourse('${c.id}')">✕ Delete Course</button>
+        </div>
+      `).join('');
+    }
+
+    // 7. COURSE FORM SUBMISSION HANDLER
+    const addCourseForm = document.getElementById('addCourseForm');
+    const saveCourseBtn = document.getElementById('saveCourseBtn');
+
+    addCourseForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      saveCourseBtn.disabled = true;
+      saveCourseBtn.textContent = 'Publishing...';
+
+      let rawUrl = document.getElementById('courseVideoUrl').value.trim();
+      let embedUrl = rawUrl;
+
+      // Smart YouTube Embed Converter
+      if (rawUrl.includes("youtube.com/watch?v=")) {
+        const videoId = rawUrl.split("v=")[1].split("&")[0];
+        embedUrl = `https://www.youtube.com/embed/${videoId}`;
+      } else if (rawUrl.includes("youtu.be/")) {
+        const videoId = rawUrl.split("youtu.be/")[1].split("?")[0];
+        embedUrl = `https://www.youtube.com/embed/${videoId}`;
+      } else if (rawUrl.includes("drive.google.com/file/d/")) {
+        // Google Drive embed preview format
+        const driveId = rawUrl.split("/d/")[1].split("/")[0];
+        embedUrl = `https://drive.google.com/file/d/${driveId}/preview`;
+      }
+
+      try {
+        await addDoc(coursesCol, {
+          title: document.getElementById('courseTitle').value.trim(),
+          mentor: document.getElementById('courseMentor').value.trim(),
+          duration: document.getElementById('courseDuration').value.trim(),
+          videoUrl: embedUrl,
+          description: document.getElementById('courseDesc').value.trim(),
+          createdAt: serverTimestamp(),
+          dateStr: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+        });
+
+        addCourseForm.reset();
+        const successNotice = document.getElementById('courseUploadSuccess');
+        successNotice.style.display = 'inline';
+        setTimeout(() => { successNotice.style.display = 'none'; }, 6000);
+      } catch (err) {
+        alert("Failed to upload course: " + err.message);
+      } finally {
+        saveCourseBtn.disabled = false;
+        saveCourseBtn.textContent = 'Publish Recording to Courses Page →';
+      }
+    });
+
+    // 8. ACTIONS: REVIEWS & COURSES
+    window.approveReview = async function(id) {
+      try {
+        await updateDoc(doc(db, "reviews", id), { status: 'approved' });
+      } catch (err) {
+        alert("Failed to approve review: " + err.message);
+      }
+    };
+
+    window.unapproveReview = async function(id) {
+      try {
+        await updateDoc(doc(db, "reviews", id), { status: 'pending' });
+      } catch (err) {
+        alert("Failed to unapprove review: " + err.message);
+      }
+    };
+
+    window.deleteReview = async function(id) {
+      if (confirm("Are you sure you want to permanently delete this review?")) {
+        try {
+          await deleteDoc(doc(db, "reviews", id));
+        } catch (err) {
+          alert("Failed to delete review: " + err.message);
+        }
+      }
+    };
+
+    window.deleteCourse = async function(id) {
+      if (confirm("Are you sure you want to permanently delete this course recording? It will also disappear from courses.html.")) {
+        try {
+          await deleteDoc(doc(db, "courses", id));
+        } catch (err) {
+          alert("Failed to delete course: " + err.message);
+        }
+      }
+    };
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>

@@ -178,8 +178,13 @@
     .reviews-section{background:#fdfaf2;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
     .reviews-layout{display:grid;grid-template-columns:1fr 1.3fr;gap:40px;align-items:start}
     .review-form-card{background:white;border:1px solid var(--line);padding:26px;border-radius:var(--radius);box-shadow:0 12px 35px rgba(20,35,55,.06)}
-    .star-rating{display:flex;gap:6px;font-size:24px;cursor:pointer;color:#d9d9d9;margin-bottom:10px;user-select:none}
+    
+    /* Star Rating Styling */
+    .star-rating{display:inline-flex;gap:8px;font-size:28px;cursor:pointer;color:#cbd5e1;margin-bottom:12px;user-select:none;transition:color 0.15s ease}
+    .star-rating span{display:inline-block;transition:transform 0.15s ease, color 0.15s ease;line-height:1}
+    .star-rating span:hover{transform:scale(1.2)}
     .star-rating span.active{color:var(--soft-gold)}
+
     .reviews-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     .review-card{background:white;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(38,51,47,.04);display:flex;flex-direction:column;justify-content:space-between;transition:.25s}
     .review-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
@@ -665,7 +670,6 @@
         </div>
 
         <div class="creators-grid">
-          <!-- Komal Gupta -->
           <article class="creator-card">
             <div class="creator-avatar av-komal">KG</div>
             <h3 class="creator-name">Komal Gupta</h3>
@@ -674,7 +678,6 @@
             <span class="creator-tag">Founder & Host</span>
           </article>
 
-          <!-- Krishna -->
           <article class="creator-card">
             <div class="creator-avatar av-krishna">KG</div>
             <h3 class="creator-name">Krishna Gupta</h3>
@@ -683,7 +686,6 @@
             <span class="creator-tag">Community Engagement</span>
           </article>
 
-          <!-- Rahees -->
           <article class="creator-card">
             <div class="creator-avatar av-rahees">MR</div>
             <h3 class="creator-name">Muhammed Rahees</h3>
@@ -692,7 +694,6 @@
             <span class="creator-tag">Digital Platform</span>
           </article>
 
-          <!-- Nuzhat -->
           <article class="creator-card">
             <div class="creator-avatar av-nuzhat">NF</div>
             <h3 class="creator-name">Nuzhath Fathima</h3>
@@ -717,15 +718,15 @@
           <div class="review-form-card">
             <h3>Leave a Review</h3>
             <p style="color:var(--muted);font-size:13px;margin:6px 0 18px">Share your thoughts via text or voice! All reviews are moderated.</p>
-            <form id="reviewSubmitForm" onsubmit="handleReviewSubmit(event)" style="padding:0;border:0;box-shadow:none">
+            <form id="reviewSubmitForm" style="padding:0;border:0;box-shadow:none">
               <div class="field">
-                <label>Your Rating</label>
+                <label>Your Rating <span id="ratingText" style="font-weight:700;color:var(--deep-green);margin-left:6px">(5 / 5)</span></label>
                 <div class="star-rating" id="starSelector">
-                  <span onclick="setRating(1)">★</span>
-                  <span onclick="setRating(2)">★</span>
-                  <span onclick="setRating(3)">★</span>
-                  <span onclick="setRating(4)">★</span>
-                  <span onclick="setRating(5)" class="active">★</span>
+                  <span data-value="1" class="active">★</span>
+                  <span data-value="2" class="active">★</span>
+                  <span data-value="3" class="active">★</span>
+                  <span data-value="4" class="active">★</span>
+                  <span data-value="5" class="active">★</span>
                 </div>
                 <input type="hidden" id="reviewRating" value="5">
               </div>
@@ -759,13 +760,15 @@
                 </div>
               </div>
 
-              <button class="submit" type="submit">Submit Review →</button>
-              <div id="reviewSuccessStatus" class="form-status">🎉 Thank you! Your review was sent to the admin. It will appear here and on the Wall of Fame once approved!</div>
+              <button class="submit" id="submitReviewBtn" type="submit">Submit Review →</button>
+              <div id="reviewSuccessStatus" class="form-status">🎉 Thank you! Your review was sent to admin moderation. It will appear here once approved!</div>
             </form>
           </div>
 
           <div>
-            <div id="reviewsShowcase" class="reviews-grid"></div>
+            <div id="reviewsShowcase" class="reviews-grid">
+              <div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--muted)">Loading community reviews...</div>
+            </div>
             
             <div id="moreReviewsWrapper" class="more-reviews-wrapper" style="display:none">
               <button id="toggleMoreBtn" class="btn-toggle-more" onclick="toggleShowAllReviews()">
@@ -931,61 +934,74 @@
     </div>
   </div>
 
+  <!-- STAR RATING INTERACTION SCRIPT -->
   <script>
-    // 1. MOBILE NAV TOGGLE
-    const menuBtn = document.getElementById('menuToggleBtn');
-    const navLinks = document.getElementById('navLinks');
+    (function initStarRating() {
+      const starSelector = document.getElementById('starSelector');
+      const ratingInput = document.getElementById('reviewRating');
+      const ratingText = document.getElementById('ratingText');
+      if (!starSelector) return;
 
-    menuBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      navLinks.classList.toggle('open');
-    });
+      const stars = starSelector.querySelectorAll('span');
 
-    document.querySelectorAll('#navLinks a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
+      function highlightStars(count) {
+        stars.forEach((star, index) => {
+          if (index < count) {
+            star.classList.add('active');
+          } else {
+            star.classList.remove('active');
+          }
+        });
+      }
+
+      stars.forEach((star) => {
+        star.addEventListener('mouseenter', () => {
+          const val = parseInt(star.getAttribute('data-value'), 10);
+          highlightStars(val);
+        });
+
+        star.addEventListener('click', () => {
+          const val = parseInt(star.getAttribute('data-value'), 10);
+          ratingInput.value = val;
+          if (ratingText) ratingText.textContent = `(${val} / 5)`;
+          highlightStars(val);
+        });
       });
-    });
 
-    document.addEventListener('click', (e) => {
-      if (!navLinks.contains(e.target) && e.target !== menuBtn) {
-        navLinks.classList.remove('open');
-      }
-    });
+      starSelector.addEventListener('mouseleave', () => {
+        const selectedVal = parseInt(ratingInput.value, 10) || 5;
+        highlightStars(selectedVal);
+      });
 
-    // 2. DYNAMIC CONVERSATION STREAM EFFECT (Features: Rahees, Fathima, Nivetha, Komal [Host], Arpita)
-    const chatSamples = [
-      { name: "Rahees · Member", text: "I used to hesitate speaking English. Now I enjoy starting new conversations!" },
-      { name: "Komal · Host", text: "That’s the true spirit of Grow Together! Let’s keep learning together. 🚀" },
-      { name: "Fathima · Member", text: "Daily speaking practice with everyone is making a huge difference." },
-      { name: "Nivetha · Member", text: "The speaking rooms are so welcoming. Overcame my fear in just two weeks! 🌟" },
-      { name: "Arpita · Member", text: "I spoke for 3 minutes continuously today without hesitation! 🎉" },
-      { name: "Komal · Host", text: "Proud of your progress Arpita, Nivetha, and everyone showing up daily! Keep shining." }
-    ];
-    let chatIndex = 0;
-    setInterval(() => {
-      const stream = document.getElementById('conversationStream');
-      if (!stream) return;
-      const item = chatSamples[chatIndex % chatSamples.length];
-      const bubble = document.createElement('div');
-      bubble.className = item.name.includes("Host") ? 'bubble me' : 'bubble';
-      bubble.innerHTML = `<strong>${item.name}</strong>${item.text}`;
-      stream.appendChild(bubble);
-      if (stream.children.length > 3) {
-        stream.removeChild(stream.children[0]);
-      }
-      chatIndex++;
-    }, 4000);
+      highlightStars(5);
+    })();
+  </script>
 
-    // 3. REVIEWS SEED DATA & STORAGE
-    const defaultReviews = [
-      { id: 'rev-1', name: 'Kavita Menon', role: 'Community Member', rating: 5, text: 'Grow Together gave me the confidence to speak up during workplace meetings. Daily practice sessions are comfortable and friendly!', audioData: null, status: 'approved', date: '18 Aug 2026' },
-      { id: 'rev-2', name: 'Rohan Sharma', role: 'College Student', rating: 5, text: 'The most non-judgmental community for English learners. Everyone supports each other sincerely.', audioData: null, status: 'approved', date: '19 Aug 2026' },
-      { id: 'rev-3', name: 'Aditi Rao', role: 'Job Seeker', rating: 5, text: 'The interview mock sessions helped me overcome my fear of public speaking. Highly recommended!', audioData: null, status: 'approved', date: '20 Aug 2026' },
-      { id: 'rev-4', name: 'Farhan Syed', role: 'Active Speaker', rating: 5, text: 'Learning new vocabulary every day with people from different cities is an incredible experience.', audioData: null, status: 'approved', date: '20 Aug 2026' },
-      { id: 'rev-5', name: 'Sneha Patel', role: 'Community Learner', rating: 5, text: 'Loved the website design and the mission! Eager to join the next live conversation session.', audioData: null, status: 'approved', date: '21 Aug 2026' }
-    ];
+  <!-- FIREBASE SCRIPTS (MODERATED REVIEWS WITH GEOLOCATION) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, 
+      onSnapshot, query, orderBy, serverTimestamp 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+    // Your Web App's Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBlJVXCjLK4gxFxUdb861wOiWv9n6QuOJ8",
+      authDomain: "grow-together-8e773.firebaseapp.com",
+      projectId: "grow-together-8e773",
+      storageBucket: "grow-together-8e773.firebasestorage.app",
+      messagingSenderId: "410522833183",
+      appId: "1:410522833183:web:b557bf9832246c4586202a",
+      measurementId: "G-L3NT5JLE0V"
+    };
+
+    // Initialize Firebase and Firestore
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const reviewsCol = collection(db, "reviews");
+
+    let allLiveReviews = [];
     let currentAdminTab = 'pending';
     let isShowingAllReviews = false;
     let mediaRecorder = null;
@@ -994,28 +1010,8 @@
     let recordingInterval = null;
     let recordingSeconds = 0;
 
-    function getReviews() {
-      const stored = localStorage.getItem('gt_community_reviews');
-      return stored ? JSON.parse(stored) : defaultReviews;
-    }
-
-    function saveReviews(reviews) {
-      localStorage.setItem('gt_community_reviews', JSON.stringify(reviews));
-      renderShowcase();
-      renderAdminList();
-      updateBadgeCounts();
-    }
-
-    function setRating(val) {
-      document.getElementById('reviewRating').value = val;
-      const stars = document.querySelectorAll('#starSelector span');
-      stars.forEach((star, index) => {
-        if(index < val) star.classList.add('active');
-        else star.classList.remove('active');
-      });
-    }
-
-    async function toggleVoiceRecording() {
+    // 1. VOICE RECORDING
+    window.toggleVoiceRecording = async function() {
       const btn = document.getElementById('recordVoiceBtn');
       const recText = document.getElementById('recText');
       const recIcon = document.getElementById('recIcon');
@@ -1053,7 +1049,7 @@
             const mins = String(Math.floor(recordingSeconds / 60)).padStart(2, '0');
             const secs = String(recordingSeconds % 60).padStart(2, '0');
             timer.textContent = `${mins}:${secs}`;
-            if (recordingSeconds >= 60) toggleVoiceRecording();
+            if (recordingSeconds >= 60) window.toggleVoiceRecording();
           }, 1000);
         } catch (err) {
           alert('Microphone access is required to record a voice review. Please allow microphone permissions.');
@@ -1066,9 +1062,9 @@
         recIcon.textContent = '🎙️';
         timer.style.display = 'none';
       }
-    }
+    };
 
-    function discardVoiceRecording() {
+    window.discardVoiceRecording = function() {
       currentRecordedAudioBase64 = null;
       audioChunks = [];
       const preview = document.getElementById('audioPreview');
@@ -1076,48 +1072,100 @@
       preview.style.display = 'none';
       document.getElementById('discardVoiceBtn').style.display = 'none';
       document.getElementById('recText').textContent = 'Record Voice Message';
-    }
+    };
 
-    function handleReviewSubmit(e) {
+    // 2. SUBMISSION HANDLER WITH GEOLOCATION + FIRESTORE SYNC
+    const reviewForm = document.getElementById('reviewSubmitForm');
+    const submitReviewBtn = document.getElementById('submitReviewBtn');
+
+    reviewForm.addEventListener('submit', function(e) {
       e.preventDefault();
+      submitReviewBtn.disabled = true;
+      submitReviewBtn.textContent = 'Submitting...';
+
       const name = document.getElementById('reviewName').value.trim();
       const role = document.getElementById('reviewRole').value.trim() || 'Community Visitor';
       const text = document.getElementById('reviewMessage').value.trim();
-      const rating = parseInt(document.getElementById('reviewRating').value) || 5;
+      const rating = parseInt(document.getElementById('reviewRating').value, 10) || 5;
 
-      const newReview = {
-        id: 'rev-' + Date.now(),
-        name,
-        role,
-        rating,
-        text,
-        audioData: currentRecordedAudioBase64,
-        status: 'pending',
-        date: new Date().toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})
-      };
+      async function saveToFirestore(locationData) {
+        try {
+          await addDoc(reviewsCol, {
+            name,
+            role,
+            rating,
+            text,
+            audioData: currentRecordedAudioBase64,
+            location: locationData,
+            status: 'pending',     // STRICTLY SAVED AS PENDING
+            createdAt: serverTimestamp(),
+            displayDate: new Date().toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})
+          });
 
-      const reviews = getReviews();
-      reviews.unshift(newReview);
-      saveReviews(reviews);
+          reviewForm.reset();
+          window.discardVoiceRecording();
+          document.getElementById('reviewRating').value = 5;
+          const ratingText = document.getElementById('ratingText');
+          if (ratingText) ratingText.textContent = '(5 / 5)';
+          
+          const starSelector = document.getElementById('starSelector');
+          if (starSelector) {
+            starSelector.querySelectorAll('span').forEach(s => s.classList.add('active'));
+          }
 
-      document.getElementById('reviewSubmitForm').reset();
-      discardVoiceRecording();
-      setRating(5);
-      const statusMsg = document.getElementById('reviewSuccessStatus');
-      statusMsg.style.display = 'block';
-      setTimeout(() => statusMsg.style.display = 'none', 6000);
-    }
+          const statusMsg = document.getElementById('reviewSuccessStatus');
+          statusMsg.style.display = 'block';
+          setTimeout(() => statusMsg.style.display = 'none', 6000);
+        } catch (err) {
+          console.error("Firestore Save Error:", err);
+          alert("Submission could not be completed. Please check your internet or Firebase connection.");
+        } finally {
+          submitReviewBtn.disabled = false;
+          submitReviewBtn.textContent = 'Submit Review →';
+        }
+      }
 
-    function toggleShowAllReviews() {
-      isShowingAllReviews = !isShowingAllReviews;
+      // Safe geolocation capture (Never hangs if denied or timed out)
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            saveToFirestore({
+              lat: pos.coords.latitude,
+              lng: pos.coords.longitude
+            });
+          },
+          (err) => {
+            console.warn("Location permission skipped or denied:", err.message);
+            saveToFirestore(null);
+          },
+          { timeout: 5000, enableHighAccuracy: false }
+        );
+      } else {
+        saveToFirestore(null);
+      }
+    });
+
+    // 3. REAL-TIME LISTENER (Across all phones & desktops)
+    const q = query(reviewsCol, orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+      allLiveReviews = [];
+      snapshot.forEach(docSnap => {
+        allLiveReviews.push({ id: docSnap.id, ...docSnap.data() });
+      });
+
       renderShowcase();
-    }
+      renderAdminList();
+      updateBadgeCounts();
+    }, (error) => {
+      console.warn("Realtime listener error:", error);
+    });
 
+    // 4. RENDER ONLY APPROVED REVIEWS TO PUBLIC
     function renderShowcase() {
       const showcase = document.getElementById('reviewsShowcase');
       const moreWrapper = document.getElementById('moreReviewsWrapper');
       const toggleBtn = document.getElementById('toggleMoreBtn');
-      const approved = getReviews().filter(r => r.status === 'approved');
+      const approved = allLiveReviews.filter(r => r.status === 'approved');
 
       if(approved.length === 0) {
         showcase.innerHTML = `
@@ -1132,8 +1180,8 @@
       const displayedReviews = isShowingAllReviews ? approved : approved.slice(0, 4);
 
       showcase.innerHTML = displayedReviews.map(r => {
-        const initials = r.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-        const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+        const initials = r.name ? r.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'GT';
+        const stars = '★'.repeat(r.rating || 5) + '☆'.repeat(5 - (r.rating || 5));
         const audioElement = r.audioData ? `
           <div class="review-audio-badge">
             <span style="font-size:11px;font-weight:700;color:var(--deep-green);display:block;margin-bottom:4px">🎙️ Voice Note</span>
@@ -1152,7 +1200,7 @@
               <div class="reviewer-avatar">${initials}</div>
               <div class="reviewer-info">
                 <h4>${escapeHtml(r.name)}</h4>
-                <small>${escapeHtml(r.role)}</small>
+                <small>${escapeHtml(r.role || '')}</small>
               </div>
             </div>
           </article>
@@ -1167,7 +1215,13 @@
       }
     }
 
-    function openAdminModal() {
+    window.toggleShowAllReviews = function() {
+      isShowingAllReviews = !isShowingAllReviews;
+      renderShowcase();
+    };
+
+    // 5. ADMIN MODAL & ACTIONS
+    window.openAdminModal = function() {
       const pass = prompt('Enter Admin Password:');
       if(pass === 'admin') {
         document.getElementById('adminModal').classList.add('open');
@@ -1175,43 +1229,52 @@
       } else if(pass !== null) {
         alert('❌ Incorrect password.');
       }
-    }
+    };
 
-    function closeAdminModal() {
+    window.closeAdminModal = function() {
       document.getElementById('adminModal').classList.remove('open');
-    }
+    };
 
-    function setAdminTab(tab, btn) {
+    window.setAdminTab = function(tab, btn) {
       currentAdminTab = tab;
       document.querySelectorAll('.admin-tabs .tab-btn').forEach(b => b.classList.remove('active'));
       if(btn) btn.classList.add('active');
       renderAdminList();
-    }
+    };
 
-    function approveReview(id) {
-      const reviews = getReviews().map(r => r.id === id ? {...r, status: 'approved'} : r);
-      saveReviews(reviews);
-    }
-
-    function unapproveReview(id) {
-      const reviews = getReviews().map(r => r.id === id ? {...r, status: 'pending'} : r);
-      saveReviews(reviews);
-    }
-
-    function deleteReview(id) {
-      if(confirm('Are you sure you want to delete this review?')) {
-        const reviews = getReviews().filter(r => r.id !== id);
-        saveReviews(reviews);
+    window.approveReview = async function(id) {
+      try {
+        await updateDoc(doc(db, "reviews", id), { status: 'approved' });
+      } catch (e) {
+        alert('Failed to approve review: ' + e.message);
       }
-    }
+    };
+
+    window.unapproveReview = async function(id) {
+      try {
+        await updateDoc(doc(db, "reviews", id), { status: 'pending' });
+      } catch (e) {
+        alert('Failed to move review: ' + e.message);
+      }
+    };
+
+    window.deleteReview = async function(id) {
+      if(confirm('Are you sure you want to permanently delete this review?')) {
+        try {
+          await deleteDoc(doc(db, "reviews", id));
+        } catch (e) {
+          alert('Failed to delete review: ' + e.message);
+        }
+      }
+    };
 
     function renderAdminList() {
       const list = document.getElementById('adminReviewList');
-      const allReviews = getReviews();
-      let filtered = allReviews;
+      if(!list) return;
 
-      if(currentAdminTab === 'pending') filtered = allReviews.filter(r => r.status === 'pending');
-      else if(currentAdminTab === 'approved') filtered = allReviews.filter(r => r.status === 'approved');
+      let filtered = allLiveReviews;
+      if(currentAdminTab === 'pending') filtered = allLiveReviews.filter(r => r.status === 'pending');
+      else if(currentAdminTab === 'approved') filtered = allLiveReviews.filter(r => r.status === 'approved');
 
       if(filtered.length === 0) {
         list.innerHTML = `<div style="text-align:center;padding:35px 20px;color:var(--muted);font-size:13px">No ${currentAdminTab} reviews found.</div>`;
@@ -1221,21 +1284,26 @@
       list.innerHTML = filtered.map(r => {
         const audioAdmin = r.audioData ? `
           <div style="margin:10px 0">
-            <span style="font-size:12px;font-weight:700;color:var(--deep-green);display:block;margin-bottom:4px">🎙️ Recorded Audio Attached:</span>
+            <span style="font-size:12px;font-weight:700;color:var(--deep-green);display:block;margin-bottom:4px">🎙️ Recorded Audio:</span>
             <audio controls src="${r.audioData}" style="width:100%;height:32px"></audio>
           </div>
         ` : '';
+
+        const locBadge = r.location 
+          ? `<span style="display:inline-block;margin-top:4px;color:#1F5D50;font-size:11px;font-weight:700;">📍 Lat: ${r.location.lat.toFixed(4)}, Lng: ${r.location.lng.toFixed(4)} (<a href="https://maps.google.com/?q=${r.location.lat},${r.location.lng}" target="_blank" style="color:#2563eb;text-decoration:underline;">View on Map</a>)</span>`
+          : `<span style="display:inline-block;margin-top:4px;color:var(--muted);font-size:11px;">📍 Location: Not granted by user</span>`;
 
         return `
           <div class="pending-review-item">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
               <div>
                 <strong style="font-size:14px;color:var(--charcoal)">${escapeHtml(r.name)}</strong>
-                <small style="color:var(--muted);display:block">${escapeHtml(r.role)} · ${r.date || ''}</small>
-                <span style="color:var(--soft-gold);font-size:12px">${'★'.repeat(r.rating)}</span>
+                <small style="color:var(--muted);display:block">${escapeHtml(r.role)} · ${r.displayDate || ''}</small>
+                <span style="color:var(--soft-gold);font-size:12px">${'★'.repeat(r.rating || 5)}</span>
+                <div>${locBadge}</div>
               </div>
               <span style="font-size:11px;font-weight:800;padding:4px 9px;border-radius:6px;background:${r.status === 'approved' ? '#d4edda' : '#fff3cd'};color:${r.status === 'approved' ? '#155724' : '#856404'}">
-                ${r.status.toUpperCase()}
+                ${(r.status || 'pending').toUpperCase()}
               </span>
             </div>
             <p style="font-size:13px;color:#4a5568;margin-bottom:8px;background:#fff;padding:10px;border-radius:8px;border:1px solid #edf2f7">
@@ -1252,10 +1320,10 @@
     }
 
     function updateBadgeCounts() {
-      const all = getReviews();
-      const pending = all.filter(r => r.status === 'pending').length;
-      const approved = all.filter(r => r.status === 'approved').length;
-      document.getElementById('pendingCountBadge').textContent = `${pending} pending review(s) waiting`;
+      const pending = allLiveReviews.filter(r => r.status === 'pending').length;
+      const approved = allLiveReviews.filter(r => r.status === 'approved').length;
+      const pendingBadge = document.getElementById('pendingCountBadge');
+      if (pendingBadge) pendingBadge.textContent = `${pending} pending review(s) waiting`;
       const tabP = document.getElementById('tabPendingCount');
       const tabA = document.getElementById('tabApprovedCount');
       if(tabP) tabP.textContent = pending;
@@ -1266,23 +1334,71 @@
       if(!str) return '';
       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
+  </script>
 
-    // ================= 4. GROW TOGETHER AI KNOWLEDGE BASE =================
+  <!-- REGULAR SCRIPTS (NAV, DYNAMIC CHAT & AI WIDGET) -->
+  <script>
+    // 1. MOBILE NAV TOGGLE
+    const menuBtn = document.getElementById('menuToggleBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navLinks.classList.toggle('open');
+    });
+
+    document.querySelectorAll('#navLinks a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!navLinks.contains(e.target) && e.target !== menuBtn) {
+        navLinks.classList.remove('open');
+      }
+    });
+
+    // 2. DYNAMIC CONVERSATION STREAM EFFECT
+    const chatSamples = [
+      { name: "Rahees · Member", text: "I used to hesitate speaking English. Now I enjoy starting new conversations!" },
+      { name: "Komal · Host", text: "That’s the true spirit of Grow Together! Let’s keep learning together. 🚀" },
+      { name: "Fathima · Member", text: "Daily speaking practice with everyone is making a huge difference." },
+      { name: "Nivetha · Member", text: "The speaking rooms are so welcoming. Overcame my fear in just two weeks! 🌟" },
+      { name: "Arpita · Member", text: "I spoke for 3 minutes continuously today without hesitation! 🎉" },
+      { name: "Komal · Host", text: "Proud of your progress Arpita, Nivetha, and everyone showing up daily! Keep shining." }
+    ];
+    let chatIndex = 0;
+    setInterval(() => {
+      const stream = document.getElementById('conversationStream');
+      if (!stream) return;
+      const item = chatSamples[chatIndex % chatSamples.length];
+      const bubble = document.createElement('div');
+      bubble.className = item.name.includes("Host") ? 'bubble me' : 'bubble';
+      bubble.innerHTML = `<strong>${item.name}</strong>${item.text}`;
+      stream.appendChild(bubble);
+      if (stream.children.length > 3) {
+        stream.removeChild(stream.children[0]);
+      }
+      chatIndex++;
+    }, 4000);
+
+    // 3. AI ASSISTANT KNOWLEDGE BASE
     const GT_KNOWLEDGE = {
       about: `<strong>Grow Together Community</strong> is a welcoming space built for people who want to practice English, overcome hesitation, and speak with confidence without fear of judgment. Our motto is: <em>"Speak • Connect • Grow."</em>`,
       founder: `<strong>Meet the Founding Team:</strong><br>
-• <strong>Komal Gupta</strong> — Co-Founder & Community Lead (Building Grow Together from an idea into a community to Speak • Connect • Grow).<br>
-• <strong>Krishna</strong> — Co-Founder & Community Engagement Lead (Connecting with members through 1:1 interviews and helping build the community from the beginning).<br>
-• <strong>Rahees</strong> — Website Developer (Building the digital home of Grow Together and bringing the community's vision online).<br>
-• <strong>Nuzhat</strong> — Community Outreach & Co-Host Lead (Driving outreach, content distribution, community connections, and co-hosting sessions).`,
+• <strong>Komal Gupta</strong> — Co-Founder & Community Lead.<br>
+• <strong>Krishna Gupta</strong> — Co-Founder & Community Engagement Lead.<br>
+• <strong>Muhammed Rahees</strong> — Website Developer.<br>
+• <strong>Nuzhath Fathima</strong> — Community Outreach & Co-Host Lead.`,
       sessions: `We organize <strong>daily live speaking sessions</strong> over Google Meet & WhatsApp voice rooms. Members participate in everyday discussions, personal storytelling, and impromptu speaking games to build natural fluency.`,
       ebooks: `We have 2 practical, free E-Books:<br>
 1. <strong>Upgrade Your Vocabulary</strong> — 100+ everyday high-impact expressions.<br>
 2. <strong>30-Day Confidence Challenge</strong> — 30 daily actionable communication tasks.<br>
 You can download them for free on our <a href="ebook.html">E-Book Page</a>.`,
       courses: `We provide free recorded masterclasses and speaking workshops! Once you watch a session, you can generate and download your personalized <strong>Certificate of Completion</strong> signed by Komal Gupta directly on our <a href="courses.html">Courses Page</a>.`,
-      certificates: `Yes! Every course recording includes an official <strong>Certificate of Completion</strong> featuring our verified Canva seal and signed by our Founder, Komal Gupta. Simply enter your name on the <a href="courses.html">Courses Page</a> after watching to claim yours!`,
-      reviews: `You can read authentic member reviews and voice notes directly in our <a href="#reviews">Reviews Section</a>, or check our <a href="wall-of-fame.html">Wall of Fame</a>! You can also submit your own review with an optional voice message.`,
+      certificates: `Yes! Every course recording includes an official <strong>Certificate of Completion</strong> featuring our verified seal and signed by our Founder, Komal Gupta. Simply enter your name on the <a href="courses.html">Courses Page</a> after watching to claim yours!`,
+      reviews: `You can read authentic member reviews directly in our <a href="#reviews">Reviews Section</a>, or check our <a href="wall-of-fame.html">Wall of Fame</a>! You can also submit your own review with an optional voice message.`,
       contact: `You can reach out directly via:<br>
 📧 Email: <a href="mailto:growtogether1906@gmail.com">growtogether1906@gmail.com</a><br>
 📸 Instagram: <a href="https://www.instagram.com/growtogether_1906" target="_blank">@growtogether_1906</a><br>
@@ -1290,7 +1406,6 @@ You can download them for free on our <a href="ebook.html">E-Book Page</a>.`,
 Or drop a note in our <a href="#contact">Contact Form</a>!`
     };
 
-    // AI Window Toggle
     const gtAiToggleBtn = document.getElementById('gtAiToggleBtn');
     const gtAiCloseBtn = document.getElementById('gtAiCloseBtn');
     const gtAiWindow = document.getElementById('gtAiWindow');
@@ -1300,9 +1415,7 @@ Or drop a note in our <a href="#contact">Contact Form</a>!`
     if (gtAiToggleBtn && gtAiWindow) {
       gtAiToggleBtn.addEventListener('click', () => {
         gtAiWindow.classList.toggle('open');
-        if (gtAiWindow.classList.contains('open')) {
-          gtAiInput.focus();
-        }
+        if (gtAiWindow.classList.contains('open')) gtAiInput.focus();
       });
 
       gtAiCloseBtn.addEventListener('click', () => {
@@ -1310,21 +1423,20 @@ Or drop a note in our <a href="#contact">Contact Form</a>!`
       });
     }
 
-    function askPreset(question) {
+    window.askPreset = function(question) {
       processUserQuery(question);
-    }
+    };
 
-    function handleAiSubmit(e) {
+    window.handleAiSubmit = function(e) {
       e.preventDefault();
       const text = gtAiInput.value.trim();
       if (!text) return;
       gtAiInput.value = '';
       processUserQuery(text);
-    }
+    };
 
     function processUserQuery(query) {
       appendMessage(query, 'user');
-
       const typingIndicator = document.createElement('div');
       typingIndicator.className = 'gt-msg bot typing';
       typingIndicator.innerHTML = `<div class="gt-msg-bubble">Thinking... ✨</div>`;
@@ -1332,9 +1444,7 @@ Or drop a note in our <a href="#contact">Contact Form</a>!`
       gtAiMessages.scrollTop = gtAiMessages.scrollHeight;
 
       setTimeout(() => {
-        if (typingIndicator.parentNode) {
-          gtAiMessages.removeChild(typingIndicator);
-        }
+        if (typingIndicator.parentNode) gtAiMessages.removeChild(typingIndicator);
         const answer = generateAiAnswer(query);
         appendMessage(answer, 'bot');
       }, 420);
@@ -1350,49 +1460,17 @@ Or drop a note in our <a href="#contact">Contact Form</a>!`
 
     function generateAiAnswer(q) {
       const query = q.toLowerCase();
-
-      if (query.includes('founder') || query.includes('founding team') || query.includes('who started') || query.includes('komal') || query.includes('krishna') || query.includes('rahees') || query.includes('nuzhat') || query.includes('team') || query.includes('lead')) {
-        return GT_KNOWLEDGE.founder;
-      }
-      if (query.includes('session') || query.includes('meet') || query.includes('practice') || query.includes('daily') || query.includes('how to join') || query.includes('timing')) {
-        return GT_KNOWLEDGE.sessions;
-      }
-      if (query.includes('certificate') || query.includes('cert') || query.includes('completion')) {
-        return GT_KNOWLEDGE.certificates;
-      }
-      if (query.includes('book') || query.includes('ebook') || query.includes('vocabulary') || query.includes('challenge') || query.includes('pdf')) {
-        return GT_KNOWLEDGE.ebooks;
-      }
-      if (query.includes('course') || query.includes('recording') || query.includes('video') || query.includes('watch')) {
-        return GT_KNOWLEDGE.courses;
-      }
-      if (query.includes('review') || query.includes('feedback') || query.includes('wall of fame') || query.includes('fame')) {
-        return GT_KNOWLEDGE.reviews;
-      }
-      if (query.includes('contact') || query.includes('email') || query.includes('instagram') || query.includes('whatsapp') || query.includes('phone') || query.includes('link')) {
-        return GT_KNOWLEDGE.contact;
-      }
-      if (query.includes('what is') || query.includes('about') || query.includes('grow together') || query.includes('community') || query.includes('who are we')) {
-        return GT_KNOWLEDGE.about;
-      }
-      if (query.includes('hi') || query.includes('hello') || query.includes('hey')) {
-        return "Hi there! 👋 How can I help you learn or practice with Grow Together today? Ask me about our founding team, daily sessions, e-books, or courses!";
-      }
-
-      return `That's a wonderful question! Grow Together is an encouraging community where we practice English every day, access free e-books, watch recorded courses, and earn certificates. <br><br>You can ask me about:
-      <ul>
-        <li>Founding Team (Komal, Krishna, Rahees, Nuzhat)</li>
-        <li>Daily Live Sessions & WhatsApp Group</li>
-        <li>Recorded Courses & Certificates</li>
-        <li>Free Vocabulary & Confidence E-Books</li>
-      </ul>
-      Or feel free to email our team directly at <a href="mailto:growtogether1906@gmail.com">growtogether1906@gmail.com</a>.`;
+      if (query.includes('founder') || query.includes('team') || query.includes('komal') || query.includes('rahees') || query.includes('krishna') || query.includes('nuzhat')) return GT_KNOWLEDGE.founder;
+      if (query.includes('session') || query.includes('daily') || query.includes('practice') || query.includes('speak')) return GT_KNOWLEDGE.sessions;
+      if (query.includes('certificate') || query.includes('cert')) return GT_KNOWLEDGE.certificates;
+      if (query.includes('book') || query.includes('ebook') || query.includes('pdf')) return GT_KNOWLEDGE.ebooks;
+      if (query.includes('course') || query.includes('video')) return GT_KNOWLEDGE.courses;
+      if (query.includes('review') || query.includes('feedback')) return GT_KNOWLEDGE.reviews;
+      if (query.includes('contact') || query.includes('email') || query.includes('whatsapp')) return GT_KNOWLEDGE.contact;
+      if (query.includes('what is') || query.includes('about')) return GT_KNOWLEDGE.about;
+      if (query.includes('hi') || query.includes('hello')) return "Hi there! 👋 Welcome to Grow Together! How can I help you today?";
+      return `Grow Together is an encouraging community where you can practice English every day, access free e-books, watch courses, and earn certificates. What would you like to know more about?`;
     }
-
-    // Initialize Page
-    setRating(5);
-    renderShowcase();
-    updateBadgeCounts();
   </script>
 </body>
 </html>

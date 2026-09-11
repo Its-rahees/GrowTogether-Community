@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -124,7 +123,7 @@ h1{font-size:clamp(42px,6vw,68px);line-height:1.03;letter-spacing:-3px;margin:12
       <a href="courses.html">Courses</a>
       <a href="contact.html">Contact</a>
     </div>
-    <a class="join-btn" href="contact.html">Join Community</a>                                                                                                                                                                       
+    <a class="join-btn" href="contact.html">Join Community</a>                                                                                                                                                                                
   </div>
 </nav>
 
@@ -139,47 +138,49 @@ h1{font-size:clamp(42px,6vw,68px);line-height:1.03;letter-spacing:-3px;margin:12
   <section class="wall">
     <div class="container">
       <div class="grid" id="fameGrid">
-        <article class="fame-card reveal">
+        <!-- Approved reviews will be injected here automatically -->
+
+        <article class="fame-card reveal show">
           <div class="member-top"><div class="fame-avatar c0">AR</div><div><h3>Arjun R.</h3><small>Communication Explorer</small></div></div>
           <p class="fame-quote">“I joined to improve my English, but I found a community that motivates me every day.”</p>
           <div><span class="fame-badge">Confidence Builder</span></div>
         </article>
-        <article class="fame-card reveal">
+        <article class="fame-card reveal show">
           <div class="member-top"><div class="fame-avatar c1">AS</div><div><h3>Ananya S.</h3><small>Conversation Enthusiast</small></div></div>
           <p class="fame-quote">“The best part is being able to practice without worrying about making mistakes.”</p>
           <div><span class="fame-badge">Active Speaker</span></div>
         </article>
-        <article class="fame-card reveal">
+        <article class="fame-card reveal show">
           <div class="member-top"><div class="fame-avatar c2">RK</div><div><h3>Rahul K.</h3><small>Growth Mindset</small></div></div>
           <p class="fame-quote">“Small conversations have made me much more comfortable speaking in interviews.”</p>
           <div><span class="fame-badge">Consistent Learner</span></div>
         </article>
-        <article class="fame-card reveal">
+        <article class="fame-card reveal show">
           <div class="member-top"><div class="fame-avatar c3">FA</div><div><h3>Fathima A.</h3><small>Community Member</small></div></div>
           <p class="fame-quote">“Everyone here is encouraging. I feel comfortable asking questions and trying new words.”</p>
           <div><span class="fame-badge">Positive Energy</span></div>
         </article>
-        <article class="fame-card reveal">
+        <article class="fame-card reveal show">
           <div class="member-top"><div class="fame-avatar c4">MK</div><div><h3>Mohammed K.</h3><small>Future Speaker</small></div></div>
           <p class="fame-quote">“I am learning to speak clearly and confidently instead of staying silent.”</p>
           <div><span class="fame-badge">Brave Speaker</span></div>
         </article>
-        <article class="fame-card reveal">
+        <article class="fame-card reveal show">
           <div class="member-top"><div class="fame-avatar c0">PS</div><div><h3>Priya S.</h3><small>English Learner</small></div></div>
           <p class="fame-quote">“Grow Together makes learning feel social, practical, and enjoyable.”</p>
           <div><span class="fame-badge">Community Champion</span></div>
         </article>
-        <article class="fame-card reveal">
+        <article class="fame-card reveal show">
           <div class="member-top"><div class="fame-avatar c1">AN</div><div><h3>Aarav N.</h3><small>Confident Speaker</small></div></div>
           <p class="fame-quote">“Every conversation is a small step toward becoming a more confident communicator.”</p>
           <div><span class="fame-badge">Confident Speaker</span></div>
         </article>
-        <article class="fame-card reveal">
+        <article class="fame-card reveal show">
           <div class="member-top"><div class="fame-avatar c2">DP</div><div><h3>Diya P.</h3><small>Conversation Builder</small></div></div>
           <p class="fame-quote">“Speaking daily here removed my fear of making grammar mistakes.”</p>
           <div><span class="fame-badge">Conversation Builder</span></div>
         </article>
-        <article class="fame-card reveal">
+        <article class="fame-card reveal show">
           <div class="member-top"><div class="fame-avatar c3">VM</div><div><h3>Vivek M.</h3><small>Community Learner</small></div></div>
           <p class="fame-quote">“The friendly atmosphere makes it effortless to participate.”</p>
           <div><span class="fame-badge">Community Learner</span></div>
@@ -252,381 +253,100 @@ h1{font-size:clamp(42px,6vw,68px);line-height:1.03;letter-spacing:-3px;margin:12
     return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
   }
 
-  function loadApprovedReviewsIntoWall() {
-    const grid = document.getElementById('fameGrid');
-    const stored = localStorage.getItem('gt_community_reviews');
-    if (!stored) return;
-
-    try {
-      const reviews = JSON.parse(stored);
-      const approved = reviews.filter(r => r.status === 'approved');
-      const colors = ['c0', 'c1', 'c2', 'c3', 'c4'];
-
-      const reviewCardsHtml = approved.map((r, idx) => {
-        const initials = r.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-        const colorClass = colors[idx % colors.length];
-        const stars = '★'.repeat(r.rating || 5);
-        const audioHtml = r.audioData ? `
-          <div class="fame-voice">
-            <span style="font-size:11px;font-weight:700;color:var(--deep-green);display:block;margin-bottom:3px">🎙️ Voice Review</span>
-            <audio controls src="${r.audioData}" style="width:100%;height:28px;outline:none"></audio>
-          </div>
-        ` : '';
-
-        return `
-          <article class="fame-card reveal show" style="border-color:var(--soft-gold)">
-            <div>
-              <div class="member-top">
-                <div class="fame-avatar ${colorClass}">${initials}</div>
-                <div>
-                  <h3>${escapeHtml(r.name)}</h3>
-                  <small>${escapeHtml(r.role || 'Community Reviewer')}</small>
-                </div>
-              </div>
-              <div class="fame-stars">${stars}</div>
-              <p class="fame-quote">“${escapeHtml(r.text)}”</p>
-              ${audioHtml}
-            </div>
-            <div>
-              <span class="fame-badge" style="background:#f3e7c9;border-color:var(--soft-gold);color:var(--deep-green)">★ Verified Reviewer</span>
-            </div>
-          </article>
-        `;
-      }).join('');
-
-      grid.insertAdjacentHTML('afterbegin', reviewCardsHtml);
-
-      const badge = document.getElementById('memberCountBadge');
-      if (badge) {
-        badge.textContent = `${50 + approved.length}+ COMMUNITY VOICES & MEMBERS`;
-      }
-    } catch (e) {
-      console.error('Error loading reviews:', e);
-    }
-  }
-
-  loadApprovedReviewsIntoWall();
-
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('show'); });
   }, {threshold:.08});
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
-</body>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wall of Fame | Grow Together Community</title>
-<style>
-:root{
-  --deep-green:#1F5D50;
-  --sage-green:#8FAF9A;
-  --warm-cream:#F7F3E8;
-  --charcoal:#26332F;
-  --soft-gold:#D9B86C;
-  --bg:var(--warm-cream);
-  --surface:#fffdf8;
-  --ink:var(--charcoal);
-  --muted:#66736d;
-  --primary:var(--deep-green);
-  --primary-dark:#17493f;
-  --accent:var(--sage-green);
-  --line:#dfe5dc;
-  --shadow:0 18px 50px rgba(38,51,47,.12)
-}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
-a{text-decoration:none;color:inherit}.container{width:min(1160px,92%);margin:auto}
 
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,253,248,.94);backdrop-filter:blur(18px);border-bottom:1px solid rgba(31,93,80,.16)}
-.nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.4px;color:#26332F}
-.logo{width:58px;height:58px;border-radius:12px;display:grid;place-items:center;overflow:hidden;flex:none}
-.logo img{width:100%;height:100%;object-fit:contain;display:block}
-.brand span{font-size:18px}
-.brand small{display:block;color:#66736d;font-size:10px;font-weight:600;letter-spacing:1.1px;text-transform:uppercase;margin-top:-3px}
-.nav-links{display:flex;align-items:center;gap:22px;color:#52615a;font-size:14px;font-weight:650}
-.nav-links a{position:relative;padding:8px 0;white-space:nowrap}
-.nav-links a:after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--soft-gold);transition:.25s}
-.nav-links a:hover{color:var(--primary)}
-.nav-links a:hover:after,.nav-links a.active:after{width:100%}
-.join-btn{border:0;background:var(--primary);color:#F7F3E8;padding:11px 17px;border-radius:12px;font-weight:700;cursor:pointer;transition:.2s}
-.join-btn:hover{transform:translateY(-2px);background:#17493f}
-.menu{display:none;border:0;background:none;color:#1F5D50;font-size:27px;cursor:pointer}
+<!-- REAL-TIME FIREBASE APPROVED REVIEWS SYNC (COMPOSITE-INDEX SAFE) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { 
+    getFirestore, collection, query, where, onSnapshot 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-.hero{padding:145px 0 65px;text-align:center;background:linear-gradient(180deg,#fffdf8 0%,var(--warm-cream) 100%)}
-.eyebrow{display:inline-block;padding:8px 12px;border-radius:999px;background:#e5eee8;color:var(--deep-green);font-size:12px;font-weight:900;letter-spacing:.3px}
-h1{font-size:clamp(42px,6vw,68px);line-height:1.03;letter-spacing:-3px;margin:12px auto 15px;max-width:900px}
-.gradient{background:linear-gradient(90deg,var(--deep-green),var(--sage-green));-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p{max-width:680px;margin:auto;color:var(--muted);font-size:17px}.count{display:inline-block;margin-top:22px;padding:9px 14px;border-radius:999px;background:#f3e7c9;color:var(--deep-green);border:1px solid rgba(217,184,108,.45);font-size:12px;font-weight:900}
-.wall{padding:25px 0 90px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.fame-card{background:#fffdf8;border:1px solid var(--line);border-radius:22px;padding:23px;position:relative;transition:.25s;box-shadow:0 8px 25px rgba(38,51,47,.06);display:flex;flex-direction:column;justify-content:space-between}
-.fame-card:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:var(--sage-green)}
-.member-top{display:flex;align-items:center;gap:13px;margin-bottom:17px}.fame-avatar{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;color:#fffdf8;font-weight:900;font-size:15px;flex:none;box-shadow:0 7px 18px rgba(31,93,80,.13)}
-.c0{background:var(--deep-green)}.c1{background:var(--sage-green);color:var(--charcoal)}.c2{background:var(--soft-gold);color:var(--charcoal)}.c3{background:#376f61}.c4{background:#6f9480}
-.fame-card h3{font-size:16px;margin-bottom:2px}.fame-card small{color:var(--muted);font-size:11px}.fame-quote{color:#58655f;font-size:13px;line-height:1.65;min-height:64px;margin:0}
-.fame-badge{display:inline-block;margin-top:15px;padding:6px 9px;border-radius:8px;background:#e5eee8;color:var(--deep-green);border:1px solid rgba(143,175,154,.45);font-size:10px;font-weight:800}.fame-card:hover .fame-badge{background:#f3e7c9;color:var(--deep-green);border-color:var(--soft-gold)}
-.fame-voice{margin-top:10px;background:#eef5f1;padding:8px 10px;border-radius:10px}
-.fame-stars{color:var(--soft-gold);font-size:12px;margin-bottom:4px}
-.back{text-align:center;margin-top:42px}.back a{display:inline-block;padding:13px 19px;border-radius:12px;background:var(--deep-green);color:#fffdf8;font-weight:800;transition:.2s}.back a:hover{background:var(--primary-dark);transform:translateY(-2px)}
-.reveal{opacity:0;transform:translateY(16px);transition:.6s ease}.reveal.show{opacity:1;transform:none}
+  const firebaseConfig = {
+    apiKey: "AIzaSyBlJVXCjLK4gxFxUdb861wOiWv9n6QuOJ8",
+    authDomain: "grow-together-8e773.firebaseapp.com",
+    projectId: "grow-together-8e773",
+    storageBucket: "grow-together-8e773.firebasestorage.app",
+    messagingSenderId: "410522833183",
+    appId: "1:410522833183:web:b557bf9832246c4586202a",
+    measurementId: "G-L3NT5JLE0V"
+  };
 
-.site-footer{background:#123d31;color:#d8dfda;padding:72px 0 25px;margin-top:0}
-.footer-wrap-three{width:min(1160px,86%);margin:0 auto;display:grid;grid-template-columns:1.05fr 1fr 1fr;gap:80px;align-items:start}
-.footer-brand-link{display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff}
-.footer-brand-logo{width:72px;height:72px;object-fit:contain;display:block;border-radius:15px;background:#F7F3E8;flex:none}
-.footer-brand-name{display:flex;flex-direction:column;line-height:1.05}
-.footer-brand-name strong{color:#fff;font-size:21px;font-weight:800;letter-spacing:-.4px}
-.footer-brand-name small{display:block;margin-top:7px;color:#8fa9c9;font-size:13px;letter-spacing:1.2px;font-weight:700;text-align:left}
-.footer-brand-description{display:block;margin:22px 0 0 0;width:100%;max-width:430px;color:#aebbb6;font-size:15px;line-height:1.9}
-.footer-col{display:flex;flex-direction:column;align-items:flex-start}
-.footer-col h4{color:#d9b86c;font-size:13px;letter-spacing:4px;margin:0 0 28px;font-weight:800}
-.footer-col a,.channel-item{display:flex;align-items:center;gap:14px;color:#d2d9d5;font-size:17px;line-height:1.4;margin:0 0 20px;transition:.2s}
-.footer-col a:hover{color:#fffdf8;transform:translateX(3px)}
-.footer-icon{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;flex:none;color:#c9d2cd}
-.footer-icon svg{width:21px;height:21px;display:block}
-.footer-bottom{width:min(1160px,86%);margin:28px auto 0;padding-top:22px;border-top:1px solid rgba(216,223,218,.14);font-size:12px;color:#91a39a}
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const reviewsCol = collection(db, "reviews");
+  const grid = document.getElementById('fameGrid');
+  const badge = document.getElementById('memberCountBadge');
 
-@media(max-width:900px){
-  .grid{grid-template-columns:repeat(2,1fr)}
-  .footer-wrap-three{grid-template-columns:1fr 1fr;gap:48px}
-  .footer-brand{grid-column:1/-1}
-}
-@media(max-width:680px){
-  .nav-inner{height:68px}
-  .nav-links{
-    display:none;
-    position:absolute;
-    top:68px;
-    left:4%;
-    right:4%;
-    background:white;
-    border:1px solid var(--line);
-    border-radius:16px;
-    padding:16px;
-    box-shadow:var(--shadow);
-    flex-direction:column;
-    gap:5px;
-    align-items:stretch;
-  }
-  .nav-links.open{display:flex}
-  .nav-links a{padding:11px}
-  .join-btn{display:none}
-  .menu{display:block}
-  .grid{grid-template-columns:1fr}
-  .footer-wrap-three{grid-template-columns:1fr;gap:35px}
-  .footer-brand{grid-column:auto}
-  h1{letter-spacing:-2px}
-}
-</style>
-</head>
-<body>
-<nav class="nav">
-  <div class="container nav-inner">
-    <a class="brand" href="index.html">
-      <div class="logo"><img src="logo.jpeg" alt="Grow Together Community logo"></div>
-      <div>Grow Together<small>Community</small></div>
-    </a>
-    <button class="menu" id="menuToggleBtn" aria-label="Open menu">☰</button>
-    <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="wall-of-fame.html" class="active">Wall of Fame</a>
-      <a href="ebook.html">E-Book</a>
-      <a href="courses.html">Courses</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <a class="join-btn" href="contact.html">Join Community</a>                                                                                                                                                                       
-  </div>
-</nav>
+  const colors = ['c0', 'c1', 'c2', 'c3', 'c4'];
 
-<main>
-  <section class="hero"><div class="container">
-  <div class="eyebrow">✦ WALL OF FAME</div>
-  <h1>Voices & members. <span class="gradient">One growing community.</span></h1>
-  <p>Meet our community members and approved reviewer voices — practicing English, building confidence, and inspiring each other.</p>
-  <div id="memberCountBadge" class="count">50+ COMMUNITY MEMBERS</div>
-  </div></section>
+  // Query only approved reviews without compound sorting (avoids Firestore index requirement errors)
+  const approvedQuery = query(reviewsCol, where("status", "==", "approved"));
 
-  <section class="wall">
-    <div class="container">
-      <div class="grid" id="fameGrid">
-        <article class="fame-card reveal">
-          <div class="member-top"><div class="fame-avatar c0">AR</div><div><h3>Arjun R.</h3><small>Communication Explorer</small></div></div>
-          <p class="fame-quote">“I joined to improve my English, but I found a community that motivates me every day.”</p>
-          <div><span class="fame-badge">Confidence Builder</span></div>
-        </article>
-        <article class="fame-card reveal">
-          <div class="member-top"><div class="fame-avatar c1">AS</div><div><h3>Ananya S.</h3><small>Conversation Enthusiast</small></div></div>
-          <p class="fame-quote">“The best part is being able to practice without worrying about making mistakes.”</p>
-          <div><span class="fame-badge">Active Speaker</span></div>
-        </article>
-        <article class="fame-card reveal">
-          <div class="member-top"><div class="fame-avatar c2">RK</div><div><h3>Rahul K.</h3><small>Growth Mindset</small></div></div>
-          <p class="fame-quote">“Small conversations have made me much more comfortable speaking in interviews.”</p>
-          <div><span class="fame-badge">Consistent Learner</span></div>
-        </article>
-        <article class="fame-card reveal">
-          <div class="member-top"><div class="fame-avatar c3">FA</div><div><h3>Fathima A.</h3><small>Community Member</small></div></div>
-          <p class="fame-quote">“Everyone here is encouraging. I feel comfortable asking questions and trying new words.”</p>
-          <div><span class="fame-badge">Positive Energy</span></div>
-        </article>
-        <article class="fame-card reveal">
-          <div class="member-top"><div class="fame-avatar c4">MK</div><div><h3>Mohammed K.</h3><small>Future Speaker</small></div></div>
-          <p class="fame-quote">“I am learning to speak clearly and confidently instead of staying silent.”</p>
-          <div><span class="fame-badge">Brave Speaker</span></div>
-        </article>
-        <article class="fame-card reveal">
-          <div class="member-top"><div class="fame-avatar c0">PS</div><div><h3>Priya S.</h3><small>English Learner</small></div></div>
-          <p class="fame-quote">“Grow Together makes learning feel social, practical, and enjoyable.”</p>
-          <div><span class="fame-badge">Community Champion</span></div>
-        </article>
-        <article class="fame-card reveal">
-          <div class="member-top"><div class="fame-avatar c1">AN</div><div><h3>Aarav N.</h3><small>Confident Speaker</small></div></div>
-          <p class="fame-quote">“Every conversation is a small step toward becoming a more confident communicator.”</p>
-          <div><span class="fame-badge">Confident Speaker</span></div>
-        </article>
-        <article class="fame-card reveal">
-          <div class="member-top"><div class="fame-avatar c2">DP</div><div><h3>Diya P.</h3><small>Conversation Builder</small></div></div>
-          <p class="fame-quote">“Speaking daily here removed my fear of making grammar mistakes.”</p>
-          <div><span class="fame-badge">Conversation Builder</span></div>
-        </article>
-        <article class="fame-card reveal">
-          <div class="member-top"><div class="fame-avatar c3">VM</div><div><h3>Vivek M.</h3><small>Community Learner</small></div></div>
-          <p class="fame-quote">“The friendly atmosphere makes it effortless to participate.”</p>
-          <div><span class="fame-badge">Community Learner</span></div>
-        </article>
-      </div>
-      <div class="back"><a href="index.html">← Back to Home</a></div>
-    </div>
-  </section>
-</main>
+  onSnapshot(approvedQuery, (snapshot) => {
+    // Clear out previously rendered dynamic cards to prevent duplication on updates
+    document.querySelectorAll('.fame-dynamic-card').forEach(el => el.remove());
 
-<footer class="site-footer">
-  <div class="footer-wrap-three">
-    <div class="footer-brand">
-      <a href="index.html" class="footer-brand-link" aria-label="Grow Together Community">
-        <img class="footer-brand-logo" src="logo.jpeg" alt="Grow Together Community logo">
-        <span class="footer-brand-name">
-          <strong>Grow Together</strong>
-          <small>COMMUNITY</small>
-        </span>
-      </a>
-      <p class="footer-brand-description">A community where you practice communication, build confidence and grow through real conversations.</p>
-    </div>
-    <div class="footer-col">
-      <h4>EXPLORE</h4>
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="wall-of-fame.html">Wall of Fame</a>
-      <a href="ebook.html">E-Book</a>
-      <a href="courses.html">Courses</a>
-      <a href="contact.html">Join Us</a>
-    </div>
-    
-    <div class="footer-col connect-col">
-      <h4>CONNECT</h4>
-      <a href="https://www.instagram.com/growtogether_1906?igsh=ZWp0d24zdG41NnVt" target="_blank" rel="noopener noreferrer">
-        <span class="footer-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.7" r="1.1" fill="currentColor"/></svg></span>Instagram
-      </a>
-      <a href="https://chat.whatsapp.com/FqmaGdi75EE4KRPke0odGj" target="_blank" rel="noopener noreferrer">
-        <span class="footer-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.5a8.2 8.2 0 0 1-12.2 7.1L4 20l1.4-4.1A8.2 8.2 0 1 1 20.5 11.5Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 8.7c.2-.5.5-.6.9-.6h.5c.2 0 .4.1.5.4l.7 1.7c.1.3.1.5-.1.7l-.6.7c.6 1.1 1.5 2 2.6 2.6l.7-.6c.2-.2.4-.2.7-.1l1.7.7c.3.1.4.3.4.5v.5c0 .4-.1.7-.6.9-1 .4-2.3-.1-3.9-1.2-1.4-1-2.7-2.3-3.7-3.7-1.1-1.6-1.6-2.9-1.2-3.9Z" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></span>WhatsApp Community
-      </a>
-      <a href="https://whatsapp.com/channel/0029VbCaKzWK0IBhBsmbAN11" target="_blank" rel="noopener noreferrer">
-        <span class="footer-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M7.8 8.2a5.4 5.4 0 0 0 0 7.6M16.2 8.2a5.4 5.4 0 0 1 0 7.6M5 5.5a9.3 9.3 0 0 0 0 13M19 5.5a9.3 9.3 0 0 1 0 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>WhatsApp Channel
-      </a>
-    </div>
-  </div>
-  <div class="footer-bottom">© 2026 Grow Together Community · Speak. Connect. Grow.</div>
-</footer>
+    const approvedReviews = [];
+    snapshot.forEach(docSnap => {
+      approvedReviews.push({ id: docSnap.id, ...docSnap.data() });
+    });
 
-<script>
-  const menuBtn = document.getElementById('menuToggleBtn');
-  const navLinks = document.getElementById('navLinks');
+    // Client-side sort: newest first
+    approvedReviews.sort((a, b) => {
+      const timeA = a.createdAt ? (a.createdAt.toMillis ? a.createdAt.toMillis() : (a.createdAt.seconds || 0) * 1000) : 0;
+      const timeB = b.createdAt ? (b.createdAt.toMillis ? b.createdAt.toMillis() : (b.createdAt.seconds || 0) * 1000) : 0;
+      return timeB - timeA;
+    });
 
-  menuBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    navLinks.classList.toggle('open');
-  });
-
-  document.querySelectorAll('#navLinks a').forEach(link => {
-    link.addEventListener('click', () => navLinks.classList.remove('open'));
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!navLinks.contains(e.target) && e.target !== menuBtn) {
-      navLinks.classList.remove('open');
+    if (badge) {
+      badge.textContent = `${50 + approvedReviews.length}+ COMMUNITY VOICES & MEMBERS`;
     }
-  });
 
-  function escapeHtml(str) {
-    if(!str) return '';
-    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-  }
+    // Build cards for approved reviews
+    const dynamicCardsHtml = approvedReviews.map((r, idx) => {
+      const initials = r.name ? r.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'GT';
+      const colorClass = colors[idx % colors.length];
+      const stars = '★'.repeat(r.rating || 5);
+      
+      const audioHtml = r.audioData ? `
+        <div class="fame-voice">
+          <span style="font-size:11px;font-weight:700;color:var(--deep-green);display:block;margin-bottom:3px">🎙️ Voice Review</span>
+          <audio controls src="${r.audioData}" style="width:100%;height:28px;outline:none"></audio>
+        </div>
+      ` : '';
 
-  function loadApprovedReviewsIntoWall() {
-    const grid = document.getElementById('fameGrid');
-    const stored = localStorage.getItem('gt_community_reviews');
-    if (!stored) return;
-
-    try {
-      const reviews = JSON.parse(stored);
-      const approved = reviews.filter(r => r.status === 'approved');
-      const colors = ['c0', 'c1', 'c2', 'c3', 'c4'];
-
-      const reviewCardsHtml = approved.map((r, idx) => {
-        const initials = r.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-        const colorClass = colors[idx % colors.length];
-        const stars = '★'.repeat(r.rating || 5);
-        const audioHtml = r.audioData ? `
-          <div class="fame-voice">
-            <span style="font-size:11px;font-weight:700;color:var(--deep-green);display:block;margin-bottom:3px">🎙️ Voice Review</span>
-            <audio controls src="${r.audioData}" style="width:100%;height:28px;outline:none"></audio>
-          </div>
-        ` : '';
-
-        return `
-          <article class="fame-card reveal show" style="border-color:var(--soft-gold)">
-            <div>
-              <div class="member-top">
-                <div class="fame-avatar ${colorClass}">${initials}</div>
-                <div>
-                  <h3>${escapeHtml(r.name)}</h3>
-                  <small>${escapeHtml(r.role || 'Community Reviewer')}</small>
-                </div>
+      return `
+        <article class="fame-card fame-dynamic-card reveal show" style="border: 1.5px solid var(--soft-gold); background: #ffffff; box-shadow: 0 10px 30px rgba(217,184,108,0.18);">
+          <div>
+            <div class="member-top">
+              <div class="fame-avatar ${colorClass}">${initials}</div>
+              <div>
+                <h3>${escapeHtml(r.name)}</h3>
+                <small>${escapeHtml(r.role || 'Community Reviewer')} · ${r.displayDate || ''}</small>
               </div>
-              <div class="fame-stars">${stars}</div>
-              <p class="fame-quote">“${escapeHtml(r.text)}”</p>
-              ${audioHtml}
             </div>
-            <div>
-              <span class="fame-badge" style="background:#f3e7c9;border-color:var(--soft-gold);color:var(--deep-green)">★ Verified Reviewer</span>
-            </div>
-          </article>
-        `;
-      }).join('');
+            <div class="fame-stars">${stars}</div>
+            <p class="fame-quote">“${escapeHtml(r.text)}”</p>
+            ${audioHtml}
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px;">
+            <span class="fame-badge" style="background:#f3e7c9;border-color:var(--soft-gold);color:var(--deep-green);font-weight:800">★ Verified Reviewer</span>
+            <span style="font-size:10px; font-weight:800; color:var(--deep-green); text-transform:uppercase; letter-spacing:0.5px;">Spotlight</span>
+          </div>
+        </article>
+      `;
+    }).join('');
 
-      grid.insertAdjacentHTML('afterbegin', reviewCardsHtml);
-
-      const badge = document.getElementById('memberCountBadge');
-      if (badge) {
-        badge.textContent = `${50 + approved.length}+ COMMUNITY VOICES & MEMBERS`;
-      }
-    } catch (e) {
-      console.error('Error loading reviews:', e);
-    }
-  }
-
-  loadApprovedReviewsIntoWall();
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('show'); });
-  }, {threshold:.08});
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    // Prepend approved reviews to the front of the grid
+    grid.insertAdjacentHTML('afterbegin', dynamicCardsHtml);
+  }, (err) => {
+    console.error("Wall of Fame Firestore error:", err);
+  });
 </script>
 </body>
->>>>>>> ffed664 (Initial commit for Grow Together website)
 </html>

@@ -165,7 +165,6 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
   z-index:1;
 }
 
-/* 1. STUDENT NAME: Generous 1-line space below 'PROUDLY PRESENTED TO' */
 .cert-render-box .cert-name-overlay{
   position:absolute;
   top:48.5%;
@@ -184,7 +183,6 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
   white-space:nowrap;
 }
 
-/* 2. DEDICATED UNDERLINE ACCENT UNDER STUDENT NAME */
 .cert-render-box .cert-name-underline{
   position:absolute;
   top:55.5%;
@@ -196,7 +194,6 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
   z-index:3;
 }
 
-/* 3. 'FOR' TAG: Clean breathing room under the name line */
 .cert-render-box .cert-for-label{
   position:absolute;
   top:58.8%;
@@ -212,7 +209,6 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
   text-transform:uppercase;
 }
 
-/* 4. COURSE TITLE: Centered and balanced */
 .cert-render-box .cert-course-overlay{
   position:absolute;
   top:61.8%;
@@ -229,7 +225,6 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
   line-height:1.2;
 }
 
-/* 5. SHORT DESCRIPTION: Snug width, perfectly cleared from side leaves */
 .cert-render-box .cert-desc-overlay{
   position:absolute;
   top:66.8%;
@@ -246,7 +241,6 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
   line-height:1.45;
 }
 
-/* 6. DATE: Lower-left position above the DATE line */
 .cert-render-box .cert-date-overlay{
   position:absolute;
   bottom:9.6%;
@@ -365,7 +359,9 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
         </div>
 
         <!-- Dynamic Course Cards Grid -->
-        <div class="courses-grid" id="coursesGrid"></div>
+        <div class="courses-grid" id="coursesGrid">
+          <div style="grid-column:1/-1;text-align:center;padding:45px 20px;color:var(--muted)">Connecting to courses database...</div>
+        </div>
       </div>
     </section>
   </main>
@@ -419,30 +415,30 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
         <form id="courseUploadForm" onsubmit="handleCourseUpload(event)">
           <div class="form-grid">
             <div class="form-field">
-              <label>Course Title</label>
+              <label>Course Title *</label>
               <input id="newCourseTitle" required placeholder="e.g. Master Public Speaking & Impromptu Confidence">
             </div>
             <div class="form-field">
-              <label>Instructor / Speaker Name</label>
+              <label>Instructor / Speaker Name *</label>
               <input id="newCourseInstructor" required placeholder="e.g. Komal Gupta · Founder and Host">
             </div>
             <div class="form-field">
-              <label>Duration</label>
+              <label>Duration *</label>
               <input id="newCourseDuration" required placeholder="e.g. 45 Mins">
             </div>
             <div class="form-field">
-              <label>Video Recording Source (YouTube Embed or Direct Video URL)</label>
-              <input id="newCourseVideoUrl" required placeholder="e.g. https://www.youtube.com/embed/dQw4w9WgXcQ or video.mp4">
+              <label>Video Recording URL (YouTube Link, Google Drive Embed, or MP4) *</label>
+              <input id="newCourseVideoUrl" required placeholder="e.g. https://www.youtube.com/watch?v=... or https://youtu.be/...">
             </div>
             <div class="form-field">
               <label>Thumbnail Image URL (Optional)</label>
               <input id="newCourseThumb" placeholder="e.g. thumb.jpg (Leave blank for default style)">
             </div>
             <div class="form-field">
-              <label>Course Description</label>
+              <label>Course Description *</label>
               <textarea id="newCourseDesc" required rows="3" placeholder="Explain the key takeaways and topics discussed..."></textarea>
             </div>
-            <button type="submit" class="btn-watch" style="margin-top:10px">Publish Course Recording →</button>
+            <button type="submit" id="submitCourseBtn" class="btn-watch" style="margin-top:10px">Publish Course Recording →</button>
           </div>
         </form>
       </div>
@@ -466,24 +462,24 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
           <!-- Canva Template Background -->
           <img class="cert-bg-img" src="certificate gt.jpg" alt="Grow Together Official Certificate">
           
-          <!-- 1. Student Name: 1-line space below PROUDLY PRESENTED TO -->
+          <!-- 1. Student Name -->
           <div class="cert-name-overlay" id="certStudentName">Rahees</div>
 
-          <!-- 2. Clean Underline right below Student Name -->
+          <!-- 2. Clean Underline -->
           <div class="cert-name-underline"></div>
 
-          <!-- 3. FOR Tag: Positioned under the line -->
+          <!-- 3. FOR Tag -->
           <div class="cert-for-label">FOR</div>
           
-          <!-- 4. Course Title: Centered and clear -->
+          <!-- 4. Course Title -->
           <div class="cert-course-overlay" id="certCourseTitle">OVERCOMING SPEAKING FEAR & IMPROMPTU FLUENCY</div>
           
-          <!-- 5. Description Text: Fitted cleanly above the bottom quote -->
+          <!-- 5. Description Text -->
           <div class="cert-desc-overlay">
             Thank you for stepping up, taking initiative, and leading the session with confidence, clarity, and positive energy.
           </div>
           
-          <!-- 6. Issue Date: Directly above the DATE line -->
+          <!-- 6. Issue Date -->
           <div class="cert-date-overlay" id="certIssueDate">9 SEPTEMBER 2026</div>
         </div>
       </div>
@@ -534,61 +530,104 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
     <div class="footer-bottom">© 2026 Grow Together Community · Speak. Connect. Grow.</div>
   </footer>
 
-  <script>
-    const defaultCourses = [
+  <!-- REAL-TIME FIREBASE COURSES INTEGRATION -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getFirestore, collection, addDoc, doc, deleteDoc, 
+      onSnapshot, query, serverTimestamp 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBlJVXCjLK4gxFxUdb861wOiWv9n6QuOJ8",
+      authDomain: "grow-together-8e773.firebaseapp.com",
+      projectId: "grow-together-8e773",
+      storageBucket: "grow-together-8e773.firebasestorage.app",
+      messagingSenderId: "410522833183",
+      appId: "1:410522833183:web:b557bf9832246c4586202a",
+      measurementId: "G-L3NT5JLE0V"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const coursesCol = collection(db, "courses");
+
+    let liveCourses = [];
+    let activeCourseForCert = null;
+
+    // Seed courses if collection is completely fresh
+    const defaultStarterCourses = [
       {
-        id: "course-1",
+        id: "starter-course-1",
         title: "Overcoming Speaking Fear & Impromptu Fluency",
         instructor: "Komal Gupta · Founder and Host",
         duration: "40 Mins",
-        tag: "New Course",
+        tag: "Featured",
         thumb: "",
         videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
         description: "Learn practical mental frameworks to stop overthinking grammar, manage nervous pauses, and express your thoughts clearly in any meeting."
       },
       {
-        id: "course-2",
+        id: "starter-course-2",
         title: "Daily Professional Vocabulary & Tone Control",
         instructor: "Komal Gupta · Founder and Host",
         duration: "35 Mins",
-        tag: "New Course",
+        tag: "Featured",
         thumb: "",
         videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
         description: "A step-by-step breakdown on replacing casual filler phrases with crisp, executive-level communication templates for daily work discussions."
       }
     ];
 
-    let activeCourseForCert = null;
-
-    function getCourses() {
-      const stored = localStorage.getItem('gt_community_courses');
-      return stored ? JSON.parse(stored) : defaultCourses;
+    // Helper: Convert URLs to standard Embed Link
+    function formatVideoEmbed(url) {
+      if (!url) return '';
+      if (url.includes("youtube.com/watch?v=")) {
+        const vid = url.split("v=")[1].split("&")[0];
+        return `https://www.youtube.com/embed/${vid}`;
+      } else if (url.includes("youtu.be/")) {
+        const vid = url.split("youtu.be/")[1].split("?")[0];
+        return `https://www.youtube.com/embed/${vid}`;
+      } else if (url.includes("drive.google.com/file/d/")) {
+        const fileId = url.split("/d/")[1].split("/")[0];
+        return `https://drive.google.com/file/d/${fileId}/preview`;
+      }
+      return url;
     }
 
-    function saveCourses(courses) {
-      localStorage.setItem('gt_community_courses', JSON.stringify(courses));
+    // 1. REAL-TIME LISTENER FOR COURSES
+    onSnapshot(query(coursesCol), (snapshot) => {
+      liveCourses = [];
+      snapshot.forEach((docSnap) => {
+        liveCourses.push({ id: docSnap.id, ...docSnap.data() });
+      });
+
+      // Sort client-side by creation timestamp (newest first)
+      liveCourses.sort((a, b) => {
+        const timeA = a.createdAt ? (a.createdAt.toMillis ? a.createdAt.toMillis() : (a.createdAt.seconds || 0) * 1000) : 0;
+        const timeB = b.createdAt ? (b.createdAt.toMillis ? b.createdAt.toMillis() : (b.createdAt.seconds || 0) * 1000) : 0;
+        return timeB - timeA;
+      });
+
       renderCourses();
       renderAdminManageList();
-    }
+    }, (err) => {
+      console.warn("Firestore Courses listener error:", err);
+      // Fallback to starter courses if database is offline
+      liveCourses = defaultStarterCourses;
+      renderCourses();
+    });
 
+    // 2. RENDER COURSES TO GRID
     function renderCourses() {
       const grid = document.getElementById('coursesGrid');
-      const courses = getCourses();
-      
-      if (courses.length === 0) {
-        grid.innerHTML = `
-          <div style="grid-column:1/-1;text-align:center;padding:45px 20px;background:#fff;border:1px dashed var(--line);border-radius:18px">
-            <p style="color:var(--muted);font-size:14px">No courses published yet. Use the Instructor Portal above to add your first recording.</p>
-          </div>
-        `;
-        return;
-      }
+      const coursesToDisplay = liveCourses.length > 0 ? liveCourses : defaultStarterCourses;
 
-      grid.innerHTML = courses.map(c => `
+      grid.innerHTML = coursesToDisplay.map(c => `
         <article class="course-card">
           <div>
             <div class="course-thumb-box">
-              <span class="course-badge-yellow">${escapeHtml(c.tag || 'New Course')}</span>
+              <span class="course-badge-yellow">${escapeHtml(c.tag || 'Masterclass')}</span>
               ${c.thumb ? `<img src="${c.thumb}" alt="${escapeHtml(c.title)}">` : `
                 <div style="text-align:center;padding:20px">
                   <div style="font-size:36px;margin-bottom:6px">🎙️</div>
@@ -598,56 +637,127 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
             </div>
             <h3 class="course-title">${escapeHtml(c.title)}</h3>
             <div class="course-meta-tags">
-              <span>⏱ ${escapeHtml(c.duration)}</span>
-              <span>👤 ${escapeHtml(c.instructor)}</span>
+              <span>⏱ ${escapeHtml(c.duration || 'Workshop')}</span>
+              <span>👤 ${escapeHtml(c.instructor || c.mentor || 'Community Mentor')}</span>
             </div>
-            <p class="course-desc">${escapeHtml(c.description)}</p>
+            <p class="course-desc">${escapeHtml(c.description || '')}</p>
           </div>
           <button class="btn-watch" onclick="openWatchModal('${c.id}')">Watch Recording & Get Certificate →</button>
         </article>
       `).join('');
     }
 
-    function openWatchModal(courseId) {
-      const course = getCourses().find(c => c.id === courseId);
+    // 3. WATCH MODAL
+    window.openWatchModal = function(courseId) {
+      const coursesToSearch = liveCourses.length > 0 ? liveCourses : defaultStarterCourses;
+      const course = coursesToSearch.find(c => c.id === courseId);
       if (!course) return;
 
       activeCourseForCert = course;
       document.getElementById('modalCourseTitle').textContent = course.title;
-      document.getElementById('modalCourseInstructor').textContent = course.instructor;
-      document.getElementById('modalCourseDescription').textContent = course.description;
+      document.getElementById('modalCourseInstructor').textContent = course.instructor || course.mentor || '';
+      document.getElementById('modalCourseDescription').textContent = course.description || '';
 
       const videoWrapper = document.getElementById('videoWrapper');
-      if (course.videoUrl.includes('youtube.com') || course.videoUrl.includes('youtu.be')) {
-        videoWrapper.innerHTML = `<iframe src="${course.videoUrl}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
+      const formattedUrl = formatVideoEmbed(course.videoUrl);
+
+      if (formattedUrl.includes('youtube.com') || formattedUrl.includes('drive.google.com') || formattedUrl.includes('vimeo.com')) {
+        videoWrapper.innerHTML = `<iframe src="${formattedUrl}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
       } else {
-        videoWrapper.innerHTML = `<video src="${course.videoUrl}" controls></video>`;
+        videoWrapper.innerHTML = `<video src="${formattedUrl}" controls style="width:100%;height:100%"></video>`;
       }
 
       document.getElementById('videoModal').classList.add('open');
-    }
+    };
 
-    function closeVideoModal() {
+    window.closeVideoModal = function() {
       document.getElementById('videoWrapper').innerHTML = '';
       document.getElementById('videoModal').classList.remove('open');
+    };
+
+    // 4. ADMIN COURSE CREATION & DELETION
+    window.handleCourseUpload = async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitCourseBtn');
+      btn.disabled = true;
+      btn.textContent = 'Publishing to Community...';
+
+      const rawUrl = document.getElementById('newCourseVideoUrl').value.trim();
+      const formattedUrl = formatVideoEmbed(rawUrl);
+
+      try {
+        await addDoc(coursesCol, {
+          title: document.getElementById('newCourseTitle').value.trim(),
+          instructor: document.getElementById('newCourseInstructor').value.trim() || 'Komal Gupta · Founder and Host',
+          mentor: document.getElementById('newCourseInstructor').value.trim(),
+          duration: document.getElementById('newCourseDuration').value.trim(),
+          videoUrl: formattedUrl,
+          thumb: document.getElementById('newCourseThumb').value.trim(),
+          tag: 'New Course',
+          description: document.getElementById('newCourseDesc').value.trim(),
+          createdAt: serverTimestamp(),
+          dateStr: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+        });
+
+        document.getElementById('courseUploadForm').reset();
+        window.closeAdminModal();
+        alert('🎉 New Course published successfully to all devices!');
+      } catch (err) {
+        alert('Failed to upload course: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Publish Course Recording →';
+      }
+    };
+
+    window.deleteCourse = async function(courseId) {
+      if (confirm('Are you sure you want to delete this course recording for all members?')) {
+        try {
+          await deleteDoc(doc(db, "courses", courseId));
+        } catch (e) {
+          alert('Failed to delete course: ' + e.message);
+        }
+      }
+    };
+
+    function renderAdminManageList() {
+      const listContainer = document.getElementById('adminCoursesList');
+      if (!listContainer) return;
+      document.getElementById('adminCourseCount').textContent = liveCourses.length;
+
+      if (liveCourses.length === 0) {
+        listContainer.innerHTML = `<p style="color:var(--muted);font-size:13px;text-align:center;padding:20px">No database courses found.</p>`;
+        return;
+      }
+
+      listContainer.innerHTML = liveCourses.map(c => `
+        <div class="manage-item">
+          <div>
+            <strong style="font-size:14px;color:var(--charcoal);display:block">${escapeHtml(c.title)}</strong>
+            <small style="color:var(--muted)">${escapeHtml(c.instructor || c.mentor || '')} · ${escapeHtml(c.duration || '')}</small>
+          </div>
+          <button class="btn-delete-course" onclick="deleteCourse('${c.id}')">✕ Delete</button>
+        </div>
+      `).join('');
     }
 
-    function openAdminUploadModal() {
+    // 5. ADMIN MODAL UI
+    window.openAdminUploadModal = function() {
       const pass = prompt('Enter Admin Password:');
       if (pass === 'admin') {
         document.getElementById('adminModal').classList.add('open');
         renderAdminManageList();
-        switchAdminTab('upload');
+        window.switchAdminTab('upload');
       } else if (pass !== null) {
         alert('❌ Incorrect Password.');
       }
-    }
+    };
 
-    function closeAdminModal() {
+    window.closeAdminModal = function() {
       document.getElementById('adminModal').classList.remove('open');
-    }
+    };
 
-    function switchAdminTab(tab) {
+    window.switchAdminTab = function(tab) {
       const uploadSec = document.getElementById('adminUploadSection');
       const manageSec = document.getElementById('adminManageSection');
       const uploadBtn = document.getElementById('tabUploadBtn');
@@ -665,59 +775,10 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
         manageBtn.classList.add('active');
         renderAdminManageList();
       }
-    }
+    };
 
-    function handleCourseUpload(e) {
-      e.preventDefault();
-      const newCourse = {
-        id: 'course-' + Date.now(),
-        title: document.getElementById('newCourseTitle').value.trim(),
-        instructor: document.getElementById('newCourseInstructor').value.trim() || 'Komal Gupta · Founder and Host',
-        duration: document.getElementById('newCourseDuration').value.trim(),
-        videoUrl: document.getElementById('newCourseVideoUrl').value.trim(),
-        thumb: document.getElementById('newCourseThumb').value.trim(),
-        tag: 'New Course',
-        description: document.getElementById('newCourseDesc').value.trim()
-      };
-
-      const list = getCourses();
-      list.unshift(newCourse);
-      saveCourses(list);
-
-      document.getElementById('courseUploadForm').reset();
-      closeAdminModal();
-      alert('🎉 New Course published successfully!');
-    }
-
-    function deleteCourse(courseId) {
-      if (confirm('Are you sure you want to delete this course recording?')) {
-        const updated = getCourses().filter(c => c.id !== courseId);
-        saveCourses(updated);
-      }
-    }
-
-    function renderAdminManageList() {
-      const listContainer = document.getElementById('adminCoursesList');
-      const courses = getCourses();
-      document.getElementById('adminCourseCount').textContent = courses.length;
-
-      if (courses.length === 0) {
-        listContainer.innerHTML = `<p style="color:var(--muted);font-size:13px;text-align:center;padding:20px">No courses available.</p>`;
-        return;
-      }
-
-      listContainer.innerHTML = courses.map(c => `
-        <div class="manage-item">
-          <div>
-            <strong style="font-size:14px;color:var(--charcoal);display:block">${escapeHtml(c.title)}</strong>
-            <small style="color:var(--muted)">${escapeHtml(c.instructor)} · ${escapeHtml(c.duration)}</small>
-          </div>
-          <button class="btn-delete-course" onclick="deleteCourse('${c.id}')">✕ Delete Course</button>
-        </div>
-      `).join('');
-    }
-
-    function generateCertificateFromModal() {
+    // 6. CERTIFICATE GENERATION & EXPORT
+    window.generateCertificateFromModal = function() {
       const nameInput = document.getElementById('studentNameInput');
       const name = nameInput ? nameInput.value.trim() : '';
       if (!name) {
@@ -725,9 +786,8 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
         return;
       }
 
-      closeVideoModal();
+      window.closeVideoModal();
 
-      // Populate student name and course title
       document.getElementById('certStudentName').textContent = name;
       document.getElementById('certCourseTitle').textContent = (activeCourseForCert && activeCourseForCert.title) 
         ? activeCourseForCert.title.toUpperCase() 
@@ -740,18 +800,17 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
       }).toUpperCase();
       
       document.getElementById('certIssueDate').textContent = todayStr;
-
       document.getElementById('certModal').classList.add('open');
-    }
+    };
 
-    function downloadCertificate() {
+    window.downloadCertificate = function() {
       const renderBox = document.getElementById('certRenderBox');
       const btn = document.getElementById('downloadBtn');
       btn.textContent = '⏳ Preparing Image...';
       btn.disabled = true;
 
       html2canvas(renderBox, {
-        scale: 3, // Crisp high-res 300 DPI export
+        scale: 3,
         useCORS: true,
         allowTaint: true,
         backgroundColor: null
@@ -767,17 +826,20 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
         btn.textContent = '📥 Download Certificate (PNG)';
         btn.disabled = false;
       });
-    }
+    };
 
-    function closeCertModal() {
+    window.closeCertModal = function() {
       document.getElementById('certModal').classList.remove('open');
-    }
+    };
 
     function escapeHtml(str) {
       if(!str) return '';
       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
+  </script>
 
+  <!-- Mobile Nav Toggle -->
+  <script>
     const menuBtn = document.getElementById('menuToggleBtn');
     const navLinks = document.getElementById('navLinks');
     menuBtn.addEventListener('click', (e) => {
@@ -792,9 +854,6 @@ h1{font-size:clamp(32px,4.5vw,46px);line-height:1.1;letter-spacing:-1.8px;margin
         navLinks.classList.remove('open');
       }
     });
-
-    renderCourses();
-
   </script>
 </body>
 </html>
