@@ -1168,7 +1168,7 @@
     }
 
     function openAdminModal() {
-      const pass = prompt('Enter Admin Password: (Default is "admin")');
+      const pass = prompt('Enter Admin Password:');
       if(pass === 'admin') {
         document.getElementById('adminModal').classList.add('open');
         renderAdminList();
